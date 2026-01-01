@@ -109,31 +109,33 @@ const About = () => {
               </div>
             </div>
 
-            {/* Team Photos Row */}
-            <div className="flex justify-center items-end gap-4 md:gap-6 animate-fade-up animation-delay-400">
-              {teamMembers.map((member, index) => (
-                <div 
-                  key={member.name}
-                  className={`relative ${index === 2 ? 'z-10' : ''}`}
-                  style={{ marginTop: index === 1 || index === 2 ? '0' : '20px' }}
-                >
+            {/* Team Photos Row - Auto-scrollable on mobile */}
+            <div className="overflow-x-auto pb-4 scrollbar-hide animate-fade-up animation-delay-400">
+              <div className="flex justify-start md:justify-center items-end gap-4 md:gap-6 min-w-max px-4 md:px-0 animate-marquee md:animate-none">
+                {teamMembers.map((member, index) => (
                   <div 
-                    className={`${member.color} rounded-t-full overflow-hidden transition-transform hover:scale-105`}
-                    style={{ 
-                      width: index === 2 ? '140px' : '110px',
-                      height: index === 2 ? '180px' : '150px',
-                    }}
+                    key={member.name}
+                    className={`relative shrink-0 ${index === 2 ? 'z-10' : ''}`}
+                    style={{ marginTop: index === 1 || index === 2 ? '0' : '20px' }}
                   >
-                    <img
-                      src={`https://images.unsplash.com/photo-${index === 0 ? '1507003211169-0a1dd7228f2d' : index === 1 ? '1500648767791-00dcc994a43e' : index === 2 ? '1472099645785-5658abf4ff4e' : '1519085360753-af0119f7cbe7'}?w=200&h=250&fit=crop&crop=face`}
-                      alt={member.name}
-                      className="w-full h-full object-cover object-top"
-                    />
+                    <div 
+                      className={`${member.color} rounded-t-full overflow-hidden transition-transform hover:scale-105`}
+                      style={{ 
+                        width: index === 2 ? '140px' : '110px',
+                        height: index === 2 ? '180px' : '150px',
+                      }}
+                    >
+                      <img
+                        src={`https://images.unsplash.com/photo-${index === 0 ? '1507003211169-0a1dd7228f2d' : index === 1 ? '1500648767791-00dcc994a43e' : index === 2 ? '1472099645785-5658abf4ff4e' : '1519085360753-af0119f7cbe7'}?w=200&h=250&fit=crop&crop=face`}
+                        alt={member.name}
+                        className="w-full h-full object-cover object-top"
+                      />
+                    </div>
+                    <p className="text-sm font-medium text-foreground mt-2">{member.name}</p>
+                    <p className="text-xs text-muted-foreground">{member.role}</p>
                   </div>
-                  <p className="text-sm font-medium text-foreground mt-2">{member.name}</p>
-                  <p className="text-xs text-muted-foreground">{member.role}</p>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
         </div>
