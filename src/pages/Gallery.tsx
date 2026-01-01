@@ -1,48 +1,66 @@
-import { useState } from "react";
-import { X, ChevronLeft, ChevronRight } from "lucide-react";
+import { useState, useRef } from "react";
+import { X, ChevronLeft, ChevronRight, Play, ArrowLeft, ArrowRight } from "lucide-react";
 import Layout from "@/components/layout/Layout";
 import heroImage from "@/assets/hero-classroom.jpg";
 
 const galleryCategories = [
-  {
-    id: "classroom",
-    name: "Classroom Training",
-    nameMarathi: "वर्ग प्रशिक्षण",
-  },
-  {
-    id: "exams",
-    name: "Exam Sessions",
-    nameMarathi: "परीक्षा सत्र",
-  },
-  {
-    id: "certificates",
-    name: "Certificate Distribution",
-    nameMarathi: "प्रमाणपत्र वितरण",
-  },
-  {
-    id: "workshops",
-    name: "Workshops",
-    nameMarathi: "कार्यशाळा",
-  },
+  { id: "all", name: "All Photos", nameMarathi: "सर्व फोटो" },
+  { id: "classroom", name: "Classroom", nameMarathi: "वर्ग प्रशिक्षण" },
+  { id: "exams", name: "Exams", nameMarathi: "परीक्षा सत्र" },
+  { id: "certificates", name: "Certificates", nameMarathi: "प्रमाणपत्र वितरण" },
+  { id: "workshops", name: "Workshops", nameMarathi: "कार्यशाळा" },
 ];
 
-// Using the hero image as placeholder for all gallery items
 const galleryImages = [
-  { id: 1, category: "classroom", image: heroImage, alt: "Students in computer classroom" },
-  { id: 2, category: "classroom", image: heroImage, alt: "Practical training session" },
-  { id: 3, category: "classroom", image: heroImage, alt: "Theory class in progress" },
-  { id: 4, category: "exams", image: heroImage, alt: "Online examination" },
-  { id: 5, category: "exams", image: heroImage, alt: "Typing test session" },
-  { id: 6, category: "certificates", image: heroImage, alt: "Certificate ceremony" },
-  { id: 7, category: "certificates", image: heroImage, alt: "Award distribution" },
-  { id: 8, category: "workshops", image: heroImage, alt: "Special workshop" },
-  { id: 9, category: "workshops", image: heroImage, alt: "Guest lecture" },
+  { id: 1, category: "classroom", image: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=600", alt: "Students in computer classroom" },
+  { id: 2, category: "classroom", image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?w=600", alt: "Practical training session" },
+  { id: 3, category: "classroom", image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600", alt: "Theory class in progress" },
+  { id: 4, category: "exams", image: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=600", alt: "Online examination" },
+  { id: 5, category: "exams", image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=600", alt: "Typing test session" },
+  { id: 6, category: "certificates", image: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=600", alt: "Certificate ceremony" },
+  { id: 7, category: "certificates", image: "https://images.unsplash.com/photo-1627556704302-624286467c65?w=600", alt: "Award distribution" },
+  { id: 8, category: "workshops", image: "https://images.unsplash.com/photo-1540317580384-e5d43616b9aa?w=600", alt: "Special workshop" },
+  { id: 9, category: "workshops", image: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=600", alt: "Guest lecture" },
+];
+
+const videoTestimonials = [
+  { 
+    id: 1, 
+    name: "राहुल पाटील", 
+    role: "MS-CIT Student",
+    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=500&fit=crop&crop=face"
+  },
+  { 
+    id: 2, 
+    name: "प्रिया शिंदे", 
+    role: "Typing Student",
+    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=500&fit=crop&crop=face"
+  },
+  { 
+    id: 3, 
+    name: "सुनील जाधव", 
+    role: "CCC Student",
+    image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=500&fit=crop&crop=face"
+  },
+  { 
+    id: 4, 
+    name: "नेहा देशमुख", 
+    role: "Tally Student",
+    image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&h=500&fit=crop&crop=face"
+  },
+  { 
+    id: 5, 
+    name: "अमित कुलकर्णी", 
+    role: "GCC-TBC Student",
+    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=500&fit=crop&crop=face"
+  },
 ];
 
 const Gallery = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const testimonialRef = useRef<HTMLDivElement>(null);
 
   const filteredImages = selectedCategory === "all"
     ? galleryImages
@@ -67,19 +85,110 @@ const Gallery = () => {
     setCurrentImageIndex((prev) => (prev === filteredImages.length - 1 ? 0 : prev + 1));
   };
 
+  const scrollTestimonials = (direction: 'left' | 'right') => {
+    if (testimonialRef.current) {
+      const scrollAmount = 320;
+      testimonialRef.current.scrollBy({
+        left: direction === 'left' ? -scrollAmount : scrollAmount,
+        behavior: 'smooth'
+      });
+    }
+  };
+
   return (
     <Layout>
       {/* Hero Section */}
-      <section className="relative py-24 overflow-hidden">
-        <div className="absolute inset-0 hero-gradient opacity-95" />
+      <section className="relative py-20 md:py-28 overflow-hidden bg-gradient-to-b from-background to-muted/30">
         <div className="container-main relative z-10 px-4">
-          <div className="max-w-3xl mx-auto text-center animate-fade-up">
-            <h1 className="text-4xl md:text-5xl font-bold text-primary-foreground mb-4">
+          <div className="text-center max-w-4xl mx-auto">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-4 animate-fade-up">
               Photo <span className="text-secondary">Gallery</span>
             </h1>
-            <p className="text-xl text-primary-foreground/90">
-              आमच्या संस्थेतील विविध उपक्रमांचे फोटो
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto animate-fade-up animation-delay-100">
+              आमच्या संस्थेतील विविध उपक्रमांचे फोटो. Experience our vibrant learning environment.
             </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Video Testimonials Carousel */}
+      <section className="py-16 bg-muted/50">
+        <div className="container-main px-4">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+              Key Takeaways from Successful
+              <span className="block text-secondary">Graduate Experiences</span>
+            </h2>
+          </div>
+
+          <div className="relative">
+            {/* Scroll Buttons */}
+            <button 
+              onClick={() => scrollTestimonials('left')}
+              className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-card shadow-lg flex items-center justify-center text-foreground hover:bg-muted transition-colors -ml-4 hidden md:flex"
+            >
+              <ArrowLeft className="w-5 h-5" />
+            </button>
+            <button 
+              onClick={() => scrollTestimonials('right')}
+              className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-card shadow-lg flex items-center justify-center text-foreground hover:bg-muted transition-colors -mr-4 hidden md:flex"
+            >
+              <ArrowRight className="w-5 h-5" />
+            </button>
+
+            {/* Testimonials Row */}
+            <div 
+              ref={testimonialRef}
+              className="flex gap-4 overflow-x-auto pb-4 scroll-smooth scrollbar-hide"
+              style={{ scrollSnapType: 'x mandatory' }}
+            >
+              {videoTestimonials.map((testimonial) => (
+                <div 
+                  key={testimonial.id}
+                  className="relative flex-shrink-0 w-64 md:w-80 rounded-2xl overflow-hidden group cursor-pointer"
+                  style={{ scrollSnapAlign: 'start' }}
+                >
+                  <img
+                    src={testimonial.image}
+                    alt={testimonial.name}
+                    className="w-full h-80 md:h-96 object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  
+                  {/* Gradient Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-foreground/80 via-foreground/20 to-transparent" />
+                  
+                  {/* Play Button */}
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div className="w-16 h-16 rounded-full bg-primary-foreground/90 flex items-center justify-center shadow-lg">
+                      <Play className="w-8 h-8 text-foreground fill-current ml-1" />
+                    </div>
+                  </div>
+                  
+                  {/* Info */}
+                  <div className="absolute bottom-0 left-0 right-0 p-5">
+                    <h3 className="text-lg font-bold text-primary-foreground">{testimonial.name}</h3>
+                    <p className="text-sm text-primary-foreground/70">{testimonial.role}</p>
+                  </div>
+                  
+                  {/* Small Play Icon */}
+                  <div className="absolute bottom-5 right-5 w-10 h-10 rounded-full bg-primary-foreground/20 flex items-center justify-center">
+                    <Play className="w-5 h-5 text-primary-foreground fill-current ml-0.5" />
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Dots Indicator */}
+            <div className="flex justify-center gap-2 mt-6">
+              {[0, 1, 2, 3].map((dot) => (
+                <button
+                  key={dot}
+                  className={`w-2.5 h-2.5 rounded-full transition-colors ${
+                    dot === 0 ? 'bg-secondary' : 'bg-muted-foreground/30'
+                  }`}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -87,23 +196,19 @@ const Gallery = () => {
       {/* Gallery Section */}
       <section className="section-padding bg-background">
         <div className="container-main">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl font-bold text-foreground mb-4">
+              Institute <span className="text-gradient">Gallery</span>
+            </h2>
+          </div>
+
           {/* Category Filter */}
-          <div className="flex flex-wrap justify-center gap-3 mb-12 animate-fade-up">
-            <button
-              onClick={() => setSelectedCategory("all")}
-              className={`px-6 py-2 rounded-full font-medium text-sm transition-all ${
-                selectedCategory === "all"
-                  ? "bg-primary text-primary-foreground shadow-lg"
-                  : "bg-muted text-muted-foreground hover:bg-accent hover:text-accent-foreground"
-              }`}
-            >
-              All Photos
-            </button>
+          <div className="flex flex-wrap justify-center gap-3 mb-12">
             {galleryCategories.map((category) => (
               <button
                 key={category.id}
                 onClick={() => setSelectedCategory(category.id)}
-                className={`px-6 py-2 rounded-full font-medium text-sm transition-all ${
+                className={`px-6 py-2.5 rounded-full font-medium text-sm transition-all ${
                   selectedCategory === category.id
                     ? "bg-primary text-primary-foreground shadow-lg"
                     : "bg-muted text-muted-foreground hover:bg-accent hover:text-accent-foreground"
@@ -114,29 +219,31 @@ const Gallery = () => {
             ))}
           </div>
 
-          {/* Image Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* Masonry-style Image Grid */}
+          <div className="columns-1 sm:columns-2 lg:columns-3 gap-4 space-y-4">
             {filteredImages.map((image, index) => (
               <div
                 key={image.id}
-                className="group cursor-pointer animate-fade-up"
+                className="break-inside-avoid group cursor-pointer animate-fade-up"
                 style={{ animationDelay: `${index * 0.05}s` }}
                 onClick={() => openLightbox(index)}
               >
-                <div className="relative overflow-hidden rounded-2xl card-elevated">
+                <div className="relative overflow-hidden rounded-2xl">
                   <img
                     src={image.image}
                     alt={image.alt}
-                    className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110"
+                    className={`w-full object-cover transition-transform duration-500 group-hover:scale-110 ${
+                      index % 3 === 0 ? 'h-72' : index % 3 === 1 ? 'h-56' : 'h-64'
+                    }`}
                     loading="lazy"
                   />
-                  <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/30 transition-colors duration-300 flex items-center justify-center">
-                    <div className="w-12 h-12 rounded-full bg-primary-foreground/90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 scale-90 group-hover:scale-100">
-                      <span className="text-foreground text-2xl">+</span>
+                  <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/40 transition-colors duration-300 flex items-center justify-center">
+                    <div className="w-14 h-14 rounded-full bg-primary-foreground flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 scale-75 group-hover:scale-100">
+                      <span className="text-foreground text-3xl font-light">+</span>
                     </div>
                   </div>
                 </div>
-                <p className="mt-3 text-sm text-muted-foreground text-center">
+                <p className="mt-2 text-sm text-muted-foreground text-center">
                   {image.alt}
                 </p>
               </div>
@@ -144,8 +251,8 @@ const Gallery = () => {
           </div>
 
           {filteredImages.length === 0 && (
-            <div className="text-center py-12">
-              <p className="text-muted-foreground">No photos in this category yet.</p>
+            <div className="text-center py-16">
+              <p className="text-muted-foreground text-lg">No photos in this category yet.</p>
             </div>
           )}
         </div>
@@ -184,7 +291,7 @@ const Gallery = () => {
             className="max-w-[90vw] max-h-[85vh] object-contain rounded-lg"
           />
 
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-primary-foreground text-sm">
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-primary-foreground text-sm bg-foreground/50 px-4 py-2 rounded-full">
             {currentImageIndex + 1} / {filteredImages.length}
           </div>
         </div>
