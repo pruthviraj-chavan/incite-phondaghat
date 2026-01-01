@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 import { 
   Monitor, 
   Keyboard, 
@@ -16,7 +16,8 @@ import {
   Grid3X3,
   Code,
   FileText,
-  Calculator
+  Calculator,
+  Search
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Layout from "@/components/layout/Layout";
@@ -130,11 +131,25 @@ const mentors = [
 ];
 
 const Courses = () => {
+  const [searchParams] = useSearchParams();
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [searchQuery, setSearchQuery] = useState(searchParams.get("search") || "");
 
-  const filteredCourses = selectedCategory === "all" 
-    ? allCourses 
-    : allCourses.filter(course => course.category === selectedCategory);
+  useEffect(() => {
+    const urlSearch = searchParams.get("search");
+    if (urlSearch) {
+      setSearchQuery(urlSearch);
+    }
+  }, [searchParams]);
+
+  const filteredCourses = allCourses.filter(course => {
+    const matchesCategory = selectedCategory === "all" || course.category === selectedCategory;
+    const matchesSearch = searchQuery === "" || 
+      course.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      course.subtitle.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      course.description.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesCategory && matchesSearch;
+  });
 
   const featuredCourse = allCourses.find(c => c.popular);
 
@@ -148,9 +163,31 @@ const Courses = () => {
               Become In Demand On the
               <span className="block text-secondary">Job Market Today!</span>
             </h1>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8 animate-fade-up animation-delay-100">
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-6 animate-fade-up animation-delay-100">
               Government certified और skill-based संगणक अभ्यासक्रम जे तुमचे करिअर उजळवतील.
             </p>
+            
+            {/* Search Box */}
+            <div className="max-w-xl mx-auto animate-fade-up animation-delay-200">
+              <div className="flex items-center gap-3 bg-card rounded-2xl p-4 shadow-lg border border-border">
+                <Search className="w-5 h-5 text-muted-foreground flex-shrink-0" />
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Search for MS-CIT, Typing, CCC, GCC-TBC courses..."
+                  className="flex-1 bg-transparent text-foreground placeholder:text-muted-foreground text-sm outline-none"
+                />
+                {searchQuery && (
+                  <button 
+                    onClick={() => setSearchQuery("")}
+                    className="text-muted-foreground hover:text-foreground text-sm"
+                  >
+                    Clear
+                  </button>
+                )}
+              </div>
+            </div>
           </div>
         </div>
       </section>

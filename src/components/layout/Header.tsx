@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, GraduationCap, Phone } from "lucide-react";
+import { Menu, X, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import inciteLogo from "@/assets/incite-logo.png";
 
 const navLinks = [
   { name: "Home", path: "/" },
@@ -20,15 +21,15 @@ const Header = () => {
       <div className="container-main">
         <div className="flex items-center justify-between h-16 md:h-20 px-4">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl hero-gradient flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform">
-              <GraduationCap className="w-6 h-6 md:w-7 md:h-7 text-primary-foreground" />
+          <Link to="/" className="flex items-center gap-2 group">
+            <div className="w-10 h-10 md:w-12 md:h-12 rounded-full overflow-hidden shadow-lg group-hover:scale-105 transition-transform flex-shrink-0">
+              <img src={inciteLogo} alt="Incite Computer Logo" className="w-full h-full object-cover" />
             </div>
-            <div className="hidden sm:block">
-              <h1 className="text-lg md:text-xl font-bold text-foreground leading-tight">
+            <div>
+              <h1 className="text-sm sm:text-lg md:text-xl font-bold text-foreground leading-tight">
                 Incite Computer
               </h1>
-              <p className="text-xs text-muted-foreground">फोंडाघाट</p>
+              <p className="text-[10px] sm:text-xs text-muted-foreground">फोंडाघाट</p>
             </div>
           </Link>
 
