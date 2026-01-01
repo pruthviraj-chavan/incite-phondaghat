@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { 
   Award, 
   ArrowRight,
@@ -6,15 +6,30 @@ import {
   Monitor,
   FileCheck,
   Users,
-  Play
+  Play,
+  Search
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
 import heroImage from "@/assets/hero-classroom.jpg";
 
 const HeroSection = () => {
+  const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState("");
   const [currentWord, setCurrentWord] = useState(0);
   const words = ["संगणक शिक्षण", "Typing Classes", "Government Courses", "Career Growth"];
+
+  const handleSearch = () => {
+    if (searchQuery.trim()) {
+      navigate(`/courses?search=${encodeURIComponent(searchQuery.trim())}`);
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
   
   // Countdown timer state
   const [timeLeft, setTimeLeft] = useState({
@@ -158,11 +173,20 @@ const HeroSection = () => {
           
           {/* Search/Input Style Box */}
           <div className="w-full max-w-xl glass-card rounded-2xl p-4 mb-8 animate-fade-up animation-delay-400">
-            <div className="flex items-center gap-3 text-primary-foreground/60 text-sm">
-              <span className="flex-1 text-left truncate">
-                Search for MS-CIT, Typing, CCC, GCC-TBC courses...
-              </span>
-              <button className="bg-secondary hover:bg-secondary/90 text-secondary-foreground p-2 rounded-lg transition-colors">
+            <div className="flex items-center gap-3">
+              <Search className="w-5 h-5 text-primary-foreground/50 flex-shrink-0" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyDown={handleKeyDown}
+                placeholder="Search for MS-CIT, Typing, CCC, GCC-TBC courses..."
+                className="flex-1 bg-transparent text-primary-foreground placeholder:text-primary-foreground/50 text-sm outline-none"
+              />
+              <button 
+                onClick={handleSearch}
+                className="bg-secondary hover:bg-secondary/90 text-secondary-foreground p-2 rounded-lg transition-colors"
+              >
                 <ArrowRight className="w-5 h-5" />
               </button>
             </div>
