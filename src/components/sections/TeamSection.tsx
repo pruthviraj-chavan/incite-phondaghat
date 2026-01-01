@@ -1,21 +1,21 @@
 const teamMembers = [
   {
-    name: "राजेश पाटील",
+    name: "प्रशांत वंजुळे,",
     role: "संस्थापक व संचालक",
     color: "bg-destructive/80",
   },
   {
-    name: "प्रिया देशमुख",
-    role: "Program Director",
+    name: "नेहा अरेकर",
+    role: "Computer Trainer",
     color: "bg-secondary",
   },
   {
-    name: "संतोष जाधव",
+    name: "पूजा",
     role: "Senior Trainer",
     color: "bg-primary",
   },
   {
-    name: "स्वाती कुलकर्णी",
+    name: "अस्मिता",
     role: "Typing Instructor",
     color: "bg-green-500",
   },
