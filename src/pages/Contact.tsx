@@ -17,12 +17,15 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import Layout from "@/components/layout/Layout";
 
+const WHATSAPP_NUMBER = "917499697181";
+const WHATSAPP_LINK = `https://wa.me/${WHATSAPP_NUMBER}`;
+
 const contactInfo = [
   {
     icon: Phone,
     title: "Phone",
-    details: ["+91 99999 99999", "+91 88888 88888"],
-    action: "tel:+919999999999",
+    details: ["+91 74996 97181"],
+    action: WHATSAPP_LINK,
     color: "bg-green-500/10 text-green-500",
   },
   {
@@ -35,13 +38,15 @@ const contactInfo = [
   {
     icon: MapPin,
     title: "Address",
-    details: ["Incite Computer", "Phondaghat, Sindhudurg", "Maharashtra - 416502"],
+    details: ["Incite Computer", "Gandhi Chowk, Phondaghat", "Sindhudurg, Maharashtra"],
+    action: WHATSAPP_LINK,
     color: "bg-secondary/10 text-secondary",
   },
   {
     icon: Clock,
     title: "Working Hours",
     details: ["Mon - Sat: 9:00 AM - 8:00 PM", "Sunday: Closed"],
+    action: WHATSAPP_LINK,
     color: "bg-destructive/10 text-destructive",
   },
 ];
@@ -290,14 +295,14 @@ const Contact = () => {
                 </p>
                 <div className="space-y-3">
                   <a
-                    href="tel:+919999999999"
+                    href="tel:+917499697181"
                     className="flex items-center gap-3 bg-primary-foreground/10 hover:bg-primary-foreground/20 rounded-xl px-4 py-3 transition-colors"
                   >
                     <Phone className="w-5 h-5" />
-                    <span className="font-semibold">+91 99999 99999</span>
+                    <span className="font-semibold">+91 74996 97181</span>
                   </a>
                   <a
-                    href="https://wa.me/919999999999"
+                    href={`https://wa.me/917499697181`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-3 bg-green-500 hover:bg-green-600 rounded-xl px-4 py-3 transition-colors"
@@ -332,7 +337,7 @@ const Contact = () => {
         <div className="container-main px-4">
           <div className="rounded-3xl overflow-hidden shadow-xl border-4 border-muted">
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3828.1!2d73.8!3d16.0!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTbCsDAwJzAwLjAiTiA3M8KwNDgnMDAuMCJF!5e0!3m2!1sen!2sin!4v1234567890"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2579.636884365667!2d73.79439958446986!3d16.37220811921915!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc038d5f345c7e9%3A0xdb8108c6b59618c2!2sGandhi%20Chowk!5e0!3m2!1sen!2sin!4v1767254854467!5m2!1sen!2sin"
               width="100%"
               height="400"
               style={{ border: 0 }}
