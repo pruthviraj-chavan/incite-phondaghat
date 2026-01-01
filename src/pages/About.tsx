@@ -21,10 +21,10 @@ import Layout from "@/components/layout/Layout";
 import heroImage from "@/assets/hero-classroom.jpg";
 
 const teamMembers = [
-  { name: "रमेश पाटील", role: "Director", color: "bg-pink-100" },
-  { name: "सुनील शिंदे", role: "Senior Trainer", color: "bg-blue-100" },
-  { name: "प्रिया देशमुख", role: "Faculty", color: "bg-green-100" },
-  { name: "अमित जाधव", role: "Faculty", color: "bg-yellow-100" },
+  { name: "प्रशांत वंजुळे", role: "Director", color: "bg-pink-100" },
+  { name: "नेहा अरेकर", role: "Computer Trainer", color: "bg-blue-100" },
+  { name: "पूजा", role: "Senior Trainer", color: "bg-green-100" },
+  { name: "अस्मिता", role: "Senior Trainer", color: "bg-yellow-100" },
 ];
 
 const whyChooseFeatures = [
