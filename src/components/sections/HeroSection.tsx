@@ -11,13 +11,17 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
-import heroImage from "@/assets/hero-classroom.jpg";
+import heroBg from "@/assets/hero-bg.jpg";
 
 const HeroSection = () => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [currentWord, setCurrentWord] = useState(0);
+  const [showVideo, setShowVideo] = useState(false);
   const words = ["संगणक शिक्षण", "Typing Classes", "Government Courses", "Career Growth"];
+
+  // TODO: Replace with your YouTube video ID
+  const YOUTUBE_VIDEO_ID = "dQw4w9WgXcQ"; // Replace this with your actual YouTube video ID
 
   const handleSearch = () => {
     if (searchQuery.trim()) {
@@ -73,10 +77,19 @@ const HeroSection = () => {
   ];
 
   return (
-    <section className="relative min-h-screen overflow-hidden bg-gradient-to-br from-[hsl(222,47%,8%)] via-[hsl(221,83%,15%)] to-[hsl(222,47%,8%)]">
+    <section className="relative min-h-screen overflow-hidden">
+      {/* Background Image with Overlay */}
+      <div 
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: `url(${heroBg})` }}
+      >
+        {/* Dark gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[hsl(222,47%,8%)/95] via-[hsl(221,83%,15%)/90] to-[hsl(222,47%,8%)/95]" />
+      </div>
+
       {/* Animated background particles */}
       <div className="absolute inset-0 overflow-hidden">
-        {[...Array(20)].map((_, i) => (
+        {[...Array(15)].map((_, i) => (
           <div
             key={i}
             className="hero-particle"
@@ -91,7 +104,7 @@ const HeroSection = () => {
         ))}
         
         {/* Grid pattern overlay */}
-        <div className="absolute inset-0 opacity-10" 
+        <div className="absolute inset-0 opacity-5" 
           style={{
             backgroundImage: `radial-gradient(circle at 1px 1px, hsl(var(--secondary) / 0.3) 1px, transparent 0)`,
             backgroundSize: '40px 40px'
@@ -223,25 +236,45 @@ const HeroSection = () => {
           {/* Video Preview Card */}
           <div className="relative w-full max-w-4xl animate-fade-up animation-delay-500 group">
             <div className="relative rounded-3xl overflow-hidden border-4 border-primary-foreground/10 shadow-2xl">
-              <img
-                src={heroImage}
-                alt="Incite Computer Training"
-                className="w-full h-64 md:h-96 object-cover"
-              />
-              
-              {/* Play Button Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-foreground/60 via-transparent to-transparent flex items-center justify-center">
-                <button className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-secondary hover:bg-secondary/90 flex items-center justify-center shadow-lg orange-glow transition-all group-hover:scale-110">
-                  <Play className="w-8 h-8 text-secondary-foreground fill-current ml-1" />
-                </button>
-              </div>
+              {showVideo ? (
+                <div className="relative w-full" style={{ paddingTop: '56.25%' }}>
+                  <iframe
+                    className="absolute inset-0 w-full h-full"
+                    src={`https://www.youtube.com/embed/${YOUTUBE_VIDEO_ID}?autoplay=1&rel=0`}
+                    title="Institute Video"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                </div>
+              ) : (
+                <>
+                  <img
+                    src={heroBg}
+                    alt="Incite Computer Training"
+                    className="w-full h-64 md:h-96 object-cover"
+                    loading="lazy"
+                  />
+                  
+                  {/* Play Button Overlay */}
+                  <div 
+                    className="absolute inset-0 bg-gradient-to-t from-foreground/60 via-transparent to-transparent flex items-center justify-center cursor-pointer"
+                    onClick={() => setShowVideo(true)}
+                  >
+                    <button className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-secondary hover:bg-secondary/90 flex items-center justify-center shadow-lg orange-glow transition-all group-hover:scale-110">
+                      <Play className="w-8 h-8 text-secondary-foreground fill-current ml-1" />
+                    </button>
+                  </div>
+                </>
+              )}
               
               {/* Decorative dots */}
-              <div className="absolute top-4 right-4 flex gap-2">
-                <div className="w-3 h-3 rounded-full bg-secondary animate-pulse-slow" />
-                <div className="w-3 h-3 rounded-full bg-green-400 animate-pulse-slow animation-delay-200" />
-                <div className="w-3 h-3 rounded-full bg-primary-foreground/50 animate-pulse-slow animation-delay-400" />
-              </div>
+              {!showVideo && (
+                <div className="absolute top-4 right-4 flex gap-2">
+                  <div className="w-3 h-3 rounded-full bg-secondary animate-pulse-slow" />
+                  <div className="w-3 h-3 rounded-full bg-green-400 animate-pulse-slow animation-delay-200" />
+                  <div className="w-3 h-3 rounded-full bg-primary-foreground/50 animate-pulse-slow animation-delay-400" />
+                </div>
+              )}
             </div>
           </div>
 

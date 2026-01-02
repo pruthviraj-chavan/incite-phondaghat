@@ -1,5 +1,5 @@
-import { useState, useRef } from "react";
-import { X, ChevronLeft, ChevronRight, Play, ArrowLeft, ArrowRight } from "lucide-react";
+import { useState, useRef, lazy, Suspense } from "react";
+import { X, ChevronLeft, ChevronRight, Play, ArrowLeft, ArrowRight, Youtube } from "lucide-react";
 import Layout from "@/components/layout/Layout";
 import heroImage from "@/assets/hero-classroom.jpg";
 
@@ -23,36 +23,66 @@ const galleryImages = [
   { id: 9, category: "workshops", image: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=600", alt: "Guest lecture" },
 ];
 
+// TODO: Replace these with your actual YouTube video IDs
 const videoTestimonials = [
   { 
     id: 1, 
     name: "राहुल पाटील", 
     role: "MS-CIT Student",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=500&fit=crop&crop=face"
+    // Replace with actual YouTube video ID
+    youtubeId: "dQw4w9WgXcQ",
+    thumbnail: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=500&fit=crop&crop=face"
   },
   { 
     id: 2, 
     name: "प्रिया शिंदे", 
     role: "Typing Student",
-    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=500&fit=crop&crop=face"
+    youtubeId: "dQw4w9WgXcQ",
+    thumbnail: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=500&fit=crop&crop=face"
   },
   { 
     id: 3, 
     name: "सुनील जाधव", 
     role: "CCC Student",
-    image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=500&fit=crop&crop=face"
+    youtubeId: "dQw4w9WgXcQ",
+    thumbnail: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=500&fit=crop&crop=face"
   },
   { 
     id: 4, 
     name: "नेहा देशमुख", 
     role: "Tally Student",
-    image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&h=500&fit=crop&crop=face"
+    youtubeId: "dQw4w9WgXcQ",
+    thumbnail: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&h=500&fit=crop&crop=face"
   },
   { 
     id: 5, 
     name: "अमित कुलकर्णी", 
     role: "GCC-TBC Student",
-    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=500&fit=crop&crop=face"
+    youtubeId: "dQw4w9WgXcQ",
+    thumbnail: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=500&fit=crop&crop=face"
+  },
+];
+
+// TODO: Add your YouTube video IDs here for Institute Videos section
+const instituteVideos = [
+  {
+    id: 1,
+    title: "Institute Tour",
+    description: "आमच्या संस्थेची व्हर्च्युअल टूर",
+    // Replace with actual YouTube video ID
+    youtubeId: "dQw4w9WgXcQ",
+  },
+  {
+    id: 2,
+    title: "Lab Facility",
+    description: "आधुनिक कॉम्प्युटर लॅब",
+    youtubeId: "dQw4w9WgXcQ",
+  },
+  {
+    id: 3,
+    title: "Training Session",
+    description: "प्रशिक्षण सत्राचे व्हिडिओ",
+    youtubeId: "dQw4w9WgXcQ",
   },
 ];
 
@@ -60,6 +90,7 @@ const Gallery = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [activeVideoId, setActiveVideoId] = useState<string | null>(null);
   const testimonialRef = useRef<HTMLDivElement>(null);
 
   const filteredImages = selectedCategory === "all"
@@ -111,14 +142,18 @@ const Gallery = () => {
         </div>
       </section>
 
-      {/* Video Testimonials Carousel */}
+      {/* Video Testimonials Carousel - Key Takeaways */}
       <section className="py-16 bg-muted/50">
         <div className="container-main px-4">
           <div className="text-center mb-10">
+            <p className="text-sm font-medium text-secondary uppercase tracking-wider mb-2">
+              विद्यार्थ्यांचे यशोगाथा
+            </p>
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              Key Takeaways from Successful
-              <span className="block text-secondary">Graduate Experiences</span>
+              यशस्वी विद्यार्थ्यांचे
+              <span className="block text-secondary">अनुभव व्हिडिओ</span>
             </h2>
+            {/* TODO: Replace YouTube video IDs in videoTestimonials array above */}
           </div>
 
           <div className="relative">
@@ -147,20 +182,22 @@ const Gallery = () => {
                   key={testimonial.id}
                   className="relative flex-shrink-0 w-64 md:w-80 rounded-2xl overflow-hidden group cursor-pointer"
                   style={{ scrollSnapAlign: 'start' }}
+                  onClick={() => setActiveVideoId(testimonial.youtubeId)}
                 >
                   <img
-                    src={testimonial.image}
+                    src={testimonial.thumbnail}
                     alt={testimonial.name}
                     className="w-full h-80 md:h-96 object-cover transition-transform duration-500 group-hover:scale-105"
+                    loading="lazy"
                   />
                   
                   {/* Gradient Overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-foreground/80 via-foreground/20 to-transparent" />
                   
                   {/* Play Button */}
-                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                    <div className="w-16 h-16 rounded-full bg-primary-foreground/90 flex items-center justify-center shadow-lg">
-                      <Play className="w-8 h-8 text-foreground fill-current ml-1" />
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="w-16 h-16 rounded-full bg-destructive/90 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                      <Play className="w-8 h-8 text-white fill-current ml-1" />
                     </div>
                   </div>
                   
@@ -170,9 +207,9 @@ const Gallery = () => {
                     <p className="text-sm text-primary-foreground/70">{testimonial.role}</p>
                   </div>
                   
-                  {/* Small Play Icon */}
-                  <div className="absolute bottom-5 right-5 w-10 h-10 rounded-full bg-primary-foreground/20 flex items-center justify-center">
-                    <Play className="w-5 h-5 text-primary-foreground fill-current ml-0.5" />
+                  {/* YouTube Icon */}
+                  <div className="absolute top-4 right-4 w-10 h-10 rounded-full bg-destructive flex items-center justify-center">
+                    <Youtube className="w-5 h-5 text-white" />
                   </div>
                 </div>
               ))}
@@ -180,7 +217,7 @@ const Gallery = () => {
 
             {/* Dots Indicator */}
             <div className="flex justify-center gap-2 mt-6">
-              {[0, 1, 2, 3].map((dot) => (
+              {videoTestimonials.map((_, dot) => (
                 <button
                   key={dot}
                   className={`w-2.5 h-2.5 rounded-full transition-colors ${
@@ -193,8 +230,52 @@ const Gallery = () => {
         </div>
       </section>
 
-      {/* Gallery Section */}
+      {/* Institute Videos Section */}
       <section className="section-padding bg-background">
+        <div className="container-main">
+          <div className="text-center mb-10">
+            <p className="text-sm font-medium text-secondary uppercase tracking-wider mb-2">
+              आमचे व्हिडिओ
+            </p>
+            <h2 className="text-3xl font-bold text-foreground mb-4">
+              संस्थेचे <span className="text-gradient">व्हिडिओ गॅलरी</span>
+            </h2>
+            {/* TODO: Replace YouTube video IDs in instituteVideos array above */}
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            {instituteVideos.map((video) => (
+              <div 
+                key={video.id}
+                className="group cursor-pointer"
+                onClick={() => setActiveVideoId(video.youtubeId)}
+              >
+                <div className="relative rounded-2xl overflow-hidden bg-muted aspect-video">
+                  <img
+                    src={`https://img.youtube.com/vi/${video.youtubeId}/maxresdefault.jpg`}
+                    alt={video.title}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-foreground/30 group-hover:bg-foreground/40 transition-colors flex items-center justify-center">
+                    <div className="w-16 h-16 rounded-full bg-destructive flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                      <Play className="w-8 h-8 text-white fill-current ml-1" />
+                    </div>
+                  </div>
+                  <div className="absolute top-4 right-4">
+                    <Youtube className="w-8 h-8 text-white drop-shadow-lg" />
+                  </div>
+                </div>
+                <h3 className="mt-3 font-semibold text-foreground">{video.title}</h3>
+                <p className="text-sm text-muted-foreground">{video.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Gallery Section */}
+      <section className="section-padding bg-muted/30">
         <div className="container-main">
           <div className="text-center mb-10">
             <h2 className="text-3xl font-bold text-foreground mb-4">
@@ -293,6 +374,35 @@ const Gallery = () => {
 
           <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-primary-foreground text-sm bg-foreground/50 px-4 py-2 rounded-full">
             {currentImageIndex + 1} / {filteredImages.length}
+          </div>
+        </div>
+      )}
+
+      {/* YouTube Video Modal */}
+      {activeVideoId && (
+        <div 
+          className="fixed inset-0 z-50 bg-foreground/95 flex items-center justify-center animate-fade-in p-4"
+          onClick={() => setActiveVideoId(null)}
+        >
+          <button
+            onClick={() => setActiveVideoId(null)}
+            className="absolute top-4 right-4 w-12 h-12 rounded-full bg-primary-foreground/10 hover:bg-primary-foreground/20 flex items-center justify-center text-primary-foreground transition-colors z-10"
+            aria-label="Close"
+          >
+            <X className="w-6 h-6" />
+          </button>
+
+          <div 
+            className="w-full max-w-4xl aspect-video"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <iframe
+              className="w-full h-full rounded-2xl"
+              src={`https://www.youtube.com/embed/${activeVideoId}?autoplay=1&rel=0`}
+              title="YouTube video"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
           </div>
         </div>
       )}
