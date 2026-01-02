@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Award, BookOpen, Users, Trophy, Star } from "lucide-react";
 
 const partners = [
   "MKCL",
@@ -15,60 +15,81 @@ const partners = [
   "MSCIT",
 ];
 
+const achievements = [
+  { icon: Users, count: "1000+", label: "यशस्वी विद्यार्थी", color: "bg-blue-500" },
+  { icon: Award, count: "10+", label: "वर्षांचा अनुभव", color: "bg-green-500" },
+  { icon: Trophy, count: "98%", label: "यश दर", color: "bg-yellow-500" },
+  { icon: BookOpen, count: "15+", label: "कोर्सेस", color: "bg-purple-500" },
+];
+
 const CommunitySection = () => {
   return (
     <section className="overflow-hidden">
-      {/* Top Section - Community CTA */}
-      <div className="py-20 md:py-28 bg-background text-center">
-        <div className="container-main">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
-            Join an <span className="text-secondary">Exclusive</span>
-            <br />
-            Network of Successful Students
-          </h2>
-          <p className="text-muted-foreground max-w-xl mx-auto mb-8">
-            Join our community of successful students who have built their careers 
-            through quality computer education. Get guidance, mentorship, and 
-            opportunities you won't find elsewhere.
-          </p>
-          <Link to="/contact">
-            <Button className="bg-secondary hover:bg-secondary/90 text-secondary-foreground font-semibold rounded-full px-8 gap-2">
-              Join Our Institute - Enquiry Now
-              <ArrowRight className="w-5 h-5" />
-            </Button>
-          </Link>
+      {/* Top Section - Community CTA with Achievement Cards */}
+      <div className="py-20 md:py-28 bg-gradient-to-b from-background to-muted/30 relative">
+        {/* Decorative elements */}
+        <div className="absolute left-8 top-20 w-20 h-20 rounded-full bg-secondary/10 blur-2xl" />
+        <div className="absolute right-12 bottom-20 w-32 h-32 rounded-full bg-primary/10 blur-3xl" />
+        
+        <div className="container-main relative z-10">
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-2 bg-secondary/10 px-4 py-2 rounded-full mb-6">
+              <Star className="w-4 h-4 text-secondary fill-secondary" />
+              <span className="text-sm font-medium text-secondary">आमचे यश</span>
+            </div>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
+              यशस्वी विद्यार्थ्यांचे <span className="text-secondary">नेटवर्क</span>
+            </h2>
+            <p className="text-muted-foreground max-w-xl mx-auto mb-8">
+              Incite Computer च्या माध्यमातून हजारो विद्यार्थ्यांनी त्यांच्या करिअरची
+              सुरुवात केली आहे. आमच्या यशस्वी विद्यार्थ्यांचा समुदाय जॉईन करा.
+            </p>
+            <Link to="/contact">
+              <Button className="bg-secondary hover:bg-secondary/90 text-secondary-foreground font-semibold rounded-full px-8 gap-2">
+                आजच Admission घ्या
+                <ArrowRight className="w-5 h-5" />
+              </Button>
+            </Link>
+          </div>
 
-          {/* Globe Visual Placeholder */}
-          <div className="relative mt-16 h-[300px] md:h-[400px]">
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="relative w-64 h-64 md:w-80 md:h-80 rounded-full bg-gradient-to-b from-primary/20 to-foreground/80 shadow-2xl">
-                {/* Grid lines effect */}
-                <div className="absolute inset-0 rounded-full overflow-hidden opacity-40">
-                  <div className="absolute inset-0" style={{
-                    backgroundImage: `
-                      linear-gradient(0deg, transparent 49%, hsl(var(--primary-foreground)/0.3) 50%, transparent 51%),
-                      linear-gradient(90deg, transparent 49%, hsl(var(--primary-foreground)/0.3) 50%, transparent 51%)
-                    `,
-                    backgroundSize: '20px 20px',
-                  }} />
+          {/* Achievement Cards Grid */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 max-w-4xl mx-auto">
+            {achievements.map((item, index) => (
+              <div 
+                key={item.label}
+                className="relative group"
+              >
+                <div className="bg-card rounded-2xl p-6 shadow-lg border border-border hover:border-secondary/30 transition-all duration-300 hover:-translate-y-2">
+                  <div className={`w-14 h-14 rounded-xl ${item.color} flex items-center justify-center mb-4 mx-auto shadow-lg`}>
+                    <item.icon className="w-7 h-7 text-white" />
+                  </div>
+                  <div className="text-center">
+                    <p className="text-3xl md:text-4xl font-bold text-foreground mb-1">{item.count}</p>
+                    <p className="text-sm text-muted-foreground">{item.label}</p>
+                  </div>
                 </div>
-                
-                {/* Floating Avatars */}
-                <div className="absolute top-4 left-1/3 w-12 h-12 rounded-full bg-secondary flex items-center justify-center text-secondary-foreground font-bold shadow-lg">
-                  R
-                </div>
-                <div className="absolute top-1/4 right-8 w-10 h-10 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-bold shadow-lg">
-                  A
-                </div>
-                <div className="absolute bottom-1/3 left-8 w-10 h-10 rounded-full bg-green-500 flex items-center justify-center text-white font-bold shadow-lg">
-                  S
-                </div>
-                <div className="absolute bottom-1/4 right-1/4 w-11 h-11 rounded-full bg-destructive flex items-center justify-center text-white font-bold shadow-lg">
-                  P
-                </div>
-                <div className="absolute top-1/2 left-1/4 w-9 h-9 rounded-full bg-muted flex items-center justify-center text-foreground font-bold shadow-lg">
-                  M
-                </div>
+                {/* Glow effect on hover */}
+                <div className={`absolute inset-0 ${item.color}/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity -z-10`} />
+              </div>
+            ))}
+          </div>
+
+          {/* Success Stories Preview */}
+          <div className="mt-16 text-center">
+            <div className="inline-flex items-center gap-4 bg-muted/50 rounded-full px-6 py-3">
+              <div className="flex -space-x-3">
+                {[1, 2, 3, 4, 5].map((i) => (
+                  <div
+                    key={i}
+                    className="w-10 h-10 rounded-full border-2 border-background bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-xs font-bold text-primary-foreground"
+                  >
+                    {String.fromCharCode(64 + i)}
+                  </div>
+                ))}
+              </div>
+              <div className="text-left">
+                <p className="text-sm font-semibold text-foreground">आणखी शेकडो विद्यार्थी...</p>
+                <p className="text-xs text-muted-foreground">सरकारी नोकऱ्यांमध्ये यशस्वी</p>
               </div>
             </div>
           </div>

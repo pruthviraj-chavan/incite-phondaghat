@@ -21,39 +21,39 @@ import Layout from "@/components/layout/Layout";
 import heroImage from "@/assets/hero-classroom.jpg";
 
 const teamMembers = [
-  { name: "प्रशांत वंजुळे", role: "Director", color: "bg-pink-100" },
-  { name: "नेहा अरेकर", role: "Computer Trainer", color: "bg-blue-100" },
-  { name: "पूजा", role: "Senior Trainer", color: "bg-green-100" },
-  { name: "अस्मिता", role: "Senior Trainer", color: "bg-yellow-100" },
+  { name: "प्रशांत वंजुळे", role: "संचालक", color: "bg-pink-100" },
+  { name: "नेहा अरेकर", role: "संगणक प्रशिक्षक", color: "bg-blue-100" },
+  { name: "पूजा", role: "वरिष्ठ प्रशिक्षक", color: "bg-green-100" },
+  { name: "अस्मिता", role: "वरिष्ठ प्रशिक्षक", color: "bg-yellow-100" },
 ];
 
 const whyChooseFeatures = [
   { icon: Users, title: "1000+", description: "यशस्वी विद्यार्थी", position: "left-top" },
-  { icon: MessageCircle, title: "Networking", description: "Connection & Growth", position: "right-top" },
-  { icon: Heart, title: "Support", description: "Lifetime support", position: "left-bottom" },
-  { icon: GraduationCap, title: "Build Career", description: "Proven expertise", position: "right-bottom" },
+  { icon: MessageCircle, title: "नेटवर्किंग", description: "कनेक्शन व वाढ", position: "right-top" },
+  { icon: Heart, title: "सहाय्य", description: "आजीवन मार्गदर्शन", position: "left-bottom" },
+  { icon: GraduationCap, title: "करिअर", description: "यशस्वी भविष्य", position: "right-bottom" },
 ];
 
 const steps = [
-  { icon: UserCheck, title: "Sign up & Get Started", description: "नोंदणी करा आणि शिकायला सुरुवात करा." },
-  { icon: BookOpen, title: "Explore Courses", description: "आपल्या आवडीनुसार course निवडा." },
-  { icon: BarChart, title: "Keep Learning & Growing", description: "सतत शिका आणि प्रगती करा!" },
+  { icon: UserCheck, title: "नोंदणी करा", description: "आमच्या कार्यालयास भेट द्या आणि प्रवेश घ्या." },
+  { icon: BookOpen, title: "कोर्स निवडा", description: "आपल्या आवडीनुसार योग्य कोर्स निवडा." },
+  { icon: BarChart, title: "शिका आणि वाढा", description: "सतत शिका आणि करिअरमध्ये प्रगती करा!" },
 ];
 
 const stats = [
-  { number: "10+", label: "Years Experience" },
-  { number: "1000+", label: "Students Trained" },
-  { number: "15+", label: "Courses Offered" },
-  { number: "98%", label: "Success Rate" },
+  { number: "10+", label: "वर्षांचा अनुभव" },
+  { number: "1000+", label: "प्रशिक्षित विद्यार्थी" },
+  { number: "15+", label: "कोर्सेस उपलब्ध" },
+  { number: "98%", label: "यश दर" },
 ];
 
 const features = [
-  "Modern Computer Lab with Latest Systems",
-  "Experienced & Qualified Instructors",
-  "Practical Hands-on Training",
-  "Student-Friendly Environment",
-  "Government Exam Preparation",
-  "Flexible Batch Timings",
+  "आधुनिक संगणक प्रयोगशाळा",
+  "अनुभवी व पात्र प्रशिक्षक",
+  "प्रात्यक्षिक प्रशिक्षण",
+  "विद्यार्थी-स्नेही वातावरण",
+  "सरकारी परीक्षा तयारी",
+  "लवचिक बॅच वेळा",
 ];
 
 const About = () => {
@@ -81,18 +81,18 @@ const About = () => {
             <div className="inline-flex items-center gap-2 bg-accent/50 px-4 py-2 rounded-full mb-6 animate-fade-up">
               <Award className="w-5 h-5 text-primary" />
               <span className="text-sm font-medium text-accent-foreground">
-                Learn From the Best Experts
+                तज्ञांकडून शिका
               </span>
             </div>
 
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-4 animate-fade-up animation-delay-100">
-              Building Futures Together
-              <span className="block text-secondary">By Empowering Minds</span>
+              एकत्र भविष्य घडवूया
+              <span className="block text-secondary">ज्ञानाने सक्षम करूया</span>
             </h1>
             
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8 animate-fade-up animation-delay-200">
-              Join us in shaping a brighter future by nurturing potential, empowering minds, 
-              and fostering growth through education and collaboration.
+              शिक्षण आणि सहकार्याच्या माध्यमातून क्षमता विकसित करून, 
+              मनांना सक्षम करून उज्ज्वल भविष्य घडवण्यात आमच्यासोबत सहभागी व्हा.
             </p>
 
             {/* Search Box */}
@@ -100,7 +100,7 @@ const About = () => {
               <div className="flex items-center gap-3 bg-card border border-border rounded-full px-6 py-4 shadow-lg">
                 <input
                   type="text"
-                  placeholder="e.g. MS-CIT, Typing Course"
+                  placeholder="उदा. MS-CIT, टायपिंग कोर्स"
                   className="flex-1 bg-transparent text-foreground placeholder:text-muted-foreground focus:outline-none"
                 />
                 <button className="p-2 rounded-full hover:bg-muted transition-colors">
@@ -129,6 +129,7 @@ const About = () => {
                         src={`https://images.unsplash.com/photo-${index === 0 ? '1507003211169-0a1dd7228f2d' : index === 1 ? '1500648767791-00dcc994a43e' : index === 2 ? '1472099645785-5658abf4ff4e' : '1519085360753-af0119f7cbe7'}?w=200&h=250&fit=crop&crop=face`}
                         alt={member.name}
                         className="w-full h-full object-cover object-top"
+                        loading="lazy"
                       />
                     </div>
                     <p className="text-sm font-medium text-foreground mt-2">{member.name}</p>
@@ -147,31 +148,33 @@ const About = () => {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="animate-fade-up">
               <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
-                Master Your Skills:
-                <span className="block text-gradient">Exclusive Training</span>
+                आपल्या कौशल्यांवर प्रभुत्व मिळवा:
+                <span className="block text-gradient">विशेष प्रशिक्षण</span>
               </h2>
               <p className="text-muted-foreground mb-4">
-                <strong className="text-foreground">Incite Computer Phondaghat</strong> ही महाराष्ट्र शासन 
+                <strong className="text-foreground">Incite Computer फोंडाघाट</strong> ही महाराष्ट्र शासन 
                 व MKCL मान्यताप्राप्त संगणक प्रशिक्षण संस्था आहे. आम्ही गेल्या अनेक वर्षांपासून 
                 विद्यार्थ्यांना दर्जेदार संगणक शिक्षण प्रदान करत आहोत.
               </p>
               <p className="text-muted-foreground mb-6">
-                Join for exclusive access to premium tutorials, behind-the-scenes, 
-                and more. Elevate your skills and learning experience.
+                प्रीमियम ट्यूटोरियल्स, मागील दृश्ये आणि बरेच काही यांसाठी विशेष प्रवेश मिळवा. 
+                आपले कौशल्य आणि शिक्षण अनुभव उंचावा.
               </p>
               
               <div className="flex flex-wrap gap-4 mb-8">
                 <Link to="/courses">
                   <Button className="bg-foreground text-background hover:bg-foreground/90">
-                    Become a Student
+                    विद्यार्थी व्हा
                   </Button>
                 </Link>
-                <Button variant="outline" className="gap-2">
-                  <div className="w-8 h-8 rounded-full bg-destructive/10 flex items-center justify-center">
-                    <div className="w-0 h-0 border-l-[6px] border-l-destructive border-t-[4px] border-t-transparent border-b-[4px] border-b-transparent ml-0.5" />
-                  </div>
-                  Presentation Video
-                </Button>
+                <a href="https://wa.me/917499697181">
+                  <Button variant="outline" className="gap-2">
+                    <div className="w-8 h-8 rounded-full bg-green-500/10 flex items-center justify-center">
+                      <MessageCircle className="w-4 h-4 text-green-500" />
+                    </div>
+                    WhatsApp वर संपर्क करा
+                  </Button>
+                </a>
               </div>
 
               {/* Stats Row */}
@@ -194,6 +197,7 @@ const About = () => {
                     src={heroImage}
                     alt="Incite Computer Training"
                     className="w-full h-80 lg:h-[450px] object-cover"
+                    loading="lazy"
                   />
                 </div>
                 
@@ -205,8 +209,8 @@ const About = () => {
                     ))}
                   </div>
                   <div>
-                    <p className="text-sm font-semibold">3800+</p>
-                    <p className="text-xs text-muted-foreground">already joined</p>
+                    <p className="text-sm font-semibold">1000+</p>
+                    <p className="text-xs text-muted-foreground">यशस्वी विद्यार्थी</p>
                   </div>
                 </div>
 
@@ -228,11 +232,11 @@ const About = () => {
         <div className="container-main">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              Why Choose <span className="text-gradient">Incite Computer</span>
+              <span className="text-gradient">Incite Computer</span> का निवडावे?
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              Incite Computer offers expert-led courses, hands-on training, and industry 
-              insights to accelerate career growth rapidly.
+              Incite Computer तज्ञांच्या नेतृत्वाखाली कोर्सेस, प्रात्यक्षिक प्रशिक्षण आणि 
+              करिअर वाढीसाठी उद्योग अंतर्दृष्टी देते.
             </p>
           </div>
 
@@ -244,9 +248,10 @@ const About = () => {
                 src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=400&fit=crop&crop=face"
                 alt="Student"
                 className="w-full h-full object-cover"
+                loading="lazy"
               />
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-foreground/80 to-transparent p-4">
-                <p className="text-primary-foreground font-medium text-center">Video Resume</p>
+                <p className="text-primary-foreground font-medium text-center">यशस्वी विद्यार्थी</p>
               </div>
             </div>
 
@@ -263,7 +268,7 @@ const About = () => {
                 </div>
                 <div>
                   <p className="font-bold text-foreground">1000+</p>
-                  <p className="text-xs text-muted-foreground">Trained Students</p>
+                  <p className="text-xs text-muted-foreground">प्रशिक्षित विद्यार्थी</p>
                 </div>
               </div>
             </div>
@@ -274,8 +279,8 @@ const About = () => {
                   <MessageCircle className="w-5 h-5 text-secondary" />
                 </div>
                 <div>
-                  <p className="font-bold text-foreground">Networking</p>
-                  <p className="text-xs text-muted-foreground">Connection & Growth</p>
+                  <p className="font-bold text-foreground">नेटवर्किंग</p>
+                  <p className="text-xs text-muted-foreground">कनेक्शन व वाढ</p>
                 </div>
               </div>
             </div>
@@ -286,8 +291,8 @@ const About = () => {
                   <Heart className="w-5 h-5 text-green-500" />
                 </div>
                 <div>
-                  <p className="font-bold text-foreground">Support</p>
-                  <p className="text-xs text-muted-foreground">Lifetime support</p>
+                  <p className="font-bold text-foreground">सहाय्य</p>
+                  <p className="text-xs text-muted-foreground">आजीवन मार्गदर्शन</p>
                 </div>
               </div>
             </div>
@@ -298,8 +303,8 @@ const About = () => {
                   <GraduationCap className="w-5 h-5 text-primary" />
                 </div>
                 <div>
-                  <p className="font-bold text-foreground">Build Career</p>
-                  <p className="text-xs text-muted-foreground">Proven expertise</p>
+                  <p className="font-bold text-foreground">करिअर</p>
+                  <p className="text-xs text-muted-foreground">यशस्वी भविष्य</p>
                 </div>
               </div>
             </div>
@@ -320,11 +325,12 @@ const About = () => {
                       src="https://images.unsplash.com/photo-1531482615713-2afd69097998?w=400"
                       alt="Training session"
                       className="w-full h-48 object-cover"
+                      loading="lazy"
                     />
                   </div>
                   {/* Floating badge */}
                   <div className="bg-card rounded-xl p-3 shadow-lg inline-flex items-center gap-2">
-                    <p className="font-semibold text-foreground">100K Students</p>
+                    <p className="font-semibold text-foreground">1000+ विद्यार्थी</p>
                     <div className="flex -space-x-2">
                       {[1, 2, 3, 4, 5].map((i) => (
                         <div key={i} className="w-6 h-6 rounded-full bg-gradient-to-br from-primary to-secondary border-2 border-card" />
@@ -339,6 +345,7 @@ const About = () => {
                       src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=400"
                       alt="Team collaboration"
                       className="w-full h-64 object-cover"
+                      loading="lazy"
                     />
                   </div>
                 </div>
@@ -355,8 +362,8 @@ const About = () => {
             {/* Right - Content */}
             <div>
               <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
-                Take Your Expertise to the
-                <span className="block text-secondary">Next Level</span>
+                आपले कौशल्य
+                <span className="block text-secondary">पुढच्या पातळीवर न्या</span>
               </h2>
 
               <div className="space-y-6">
@@ -399,10 +406,10 @@ const About = () => {
             <div className="order-2 lg:order-1">
               <div className="grid grid-cols-2 gap-4">
                 {[
-                  { icon: Monitor, title: "Modern Lab", desc: "Latest Computers" },
-                  { icon: Users, title: "Expert Faculty", desc: "Qualified Trainers" },
-                  { icon: Award, title: "Certified", desc: "Govt. Approved" },
-                  { icon: GraduationCap, title: "Practical", desc: "Hands-on Training" },
+                  { icon: Monitor, title: "आधुनिक लॅब", desc: "नवीनतम संगणक" },
+                  { icon: Users, title: "तज्ञ शिक्षक", desc: "पात्र प्रशिक्षक" },
+                  { icon: Award, title: "प्रमाणित", desc: "शासन मान्यता" },
+                  { icon: GraduationCap, title: "प्रात्यक्षिक", desc: "हातोहात प्रशिक्षण" },
                 ].map((item, index) => (
                   <div 
                     key={item.title}
@@ -419,7 +426,7 @@ const About = () => {
 
             <div className="order-1 lg:order-2">
               <h2 className="text-3xl font-bold text-foreground mb-6">
-                Infrastructure & <span className="text-gradient">Faculty</span>
+                पायाभूत सुविधा आणि <span className="text-gradient">शिक्षक वर्ग</span>
               </h2>
               <p className="text-muted-foreground mb-6">
                 आमच्या संस्थेत आधुनिक संगणक प्रयोगशाळा, अनुभवी प्रशिक्षक आणि 
@@ -454,7 +461,7 @@ const About = () => {
             </p>
             <Link to="/contact">
               <Button variant="hero" size="lg">
-                Contact Us
+                संपर्क करा
                 <ArrowRight className="w-5 h-5" />
               </Button>
             </Link>

@@ -2,29 +2,34 @@ import { Star } from "lucide-react";
 
 const testimonials = [
   {
-    text: "MS-CIT कोर्स खूप छान शिकवला. Teachers खूप helpful आहेत. आता मला सरकारी नोकरीत selection मिळाले!",
+    text: "Incite Computer मध्ये MS-CIT शिकणे ही माझ्या आयुष्यातील सर्वोत्तम निर्णय होती. शिक्षक खूप मदत करतात आणि practical training उत्कृष्ट आहे. आता मला बँकेत नोकरी मिळाली!",
     name: "रोहित पाटील",
-    role: "MS-CIT Student",
+    role: "MS-CIT विद्यार्थी | सरकारी बँक कर्मचारी",
   },
   {
-    text: "Typing classes excellent आहेत. 40 WPM speed मिळवली. Daily practice आणि guidance मुळे possible झाले.",
+    text: "टायपिंग शिकायला सुरुवात केली तेव्हा मला काहीच येत नव्हते. पण सरांच्या मार्गदर्शनाने आता माझी स्पीड ५० WPM आहे. गव्हर्नमेंट exam साठी हे खूप उपयोगी ठरले.",
     name: "प्रियंका जोशी",
-    role: "Typing Course Student",
+    role: "टायपिंग विद्यार्थिनी | तलाठी",
   },
   {
-    text: "CCC course साठी best institute. Practical training आणि exam preparation खूप चांगली होती.",
+    text: "CCC कोर्स करून मला कॉम्प्युटर ऑपरेटर म्हणून नोकरी मिळाली. कोर्सची फी परवडणारी आहे आणि शिक्षण दर्जेदार आहे. सर्वांना शिफारस करतो.",
     name: "अमित देशमुख",
-    role: "CCC Course Student",
+    role: "CCC विद्यार्थी | कॉम्प्युटर ऑपरेटर",
   },
   {
-    text: "GCC-TBC certificate मिळाले. Job ready झालो. Thank you Incite Computer!",
+    text: "GCC-TBC certificate घेतल्यानंतर माझ्या करिअरला नवीन दिशा मिळाली. Incite Computer चे वातावरण खूप चांगले आहे आणि सर खूप अनुभवी आहेत.",
     name: "सुनील कुलकर्णी",
-    role: "GCC-TBC Student",
+    role: "GCC-TBC विद्यार्थी | ग्राम विकास अधिकारी",
   },
   {
-    text: "Office Automation course केला. MS Office, Excel, PowerPoint सगळं शिकवलं. Very practical training.",
+    text: "Tally आणि Excel शिकल्यानंतर मला accounting मध्ये नोकरी मिळाली. Practical training मुळे job मध्ये लगेच काम करता आले. धन्यवाद Incite Computer!",
     name: "स्वाती शिंदे",
-    role: "Office Automation Student",
+    role: "Tally विद्यार्थिनी | Accountant",
+  },
+  {
+    text: "माझ्या मुलाला इथे MS-CIT साठी पाठवले. शिक्षकांचे लक्ष प्रत्येक विद्यार्थ्यावर असते. वेळेत सर्टिफिकेट मिळाले आणि आता त्याला चांगली नोकरी आहे.",
+    name: "वंदना देसाई",
+    role: "पालक | पुणे",
   },
 ];
 
@@ -39,8 +44,11 @@ const TestimonialsSection = () => {
       <div className="container-main">
         {/* Header */}
         <div className="text-center mb-12">
+          <p className="text-sm font-medium text-secondary uppercase tracking-wider mb-2">
+            विद्यार्थ्यांचे अनुभव
+          </p>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground italic">
-            What the Students Say
+            विद्यार्थी काय म्हणतात?
           </h2>
         </div>
 
@@ -57,24 +65,24 @@ const TestimonialsSection = () => {
                   {[...Array(5)].map((_, i) => (
                     <Star 
                       key={i} 
-                      className="w-5 h-5 fill-foreground text-foreground" 
+                      className="w-5 h-5 fill-yellow-400 text-yellow-400" 
                     />
                   ))}
                 </div>
                 
                 {/* Quote */}
-                <p className="text-muted-foreground mb-6 leading-relaxed font-medium">
-                  {testimonial.text}
+                <p className="text-muted-foreground mb-6 leading-relaxed text-sm">
+                  "{testimonial.text}"
                 </p>
 
                 {/* Author */}
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold">
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-primary-foreground font-bold">
                     {testimonial.name.charAt(0)}
                   </div>
                   <div>
                     <h4 className="font-semibold text-foreground">{testimonial.name}</h4>
-                    <p className="text-sm text-muted-foreground">{testimonial.role}</p>
+                    <p className="text-xs text-muted-foreground">{testimonial.role}</p>
                   </div>
                 </div>
               </div>
