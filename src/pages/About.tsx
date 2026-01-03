@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Layout from "@/components/layout/Layout";
+import SEO from "@/components/SEO";
 import heroImage from "@/assets/hero-classroom.jpg";
 
 const teamMembers = [
@@ -59,6 +60,12 @@ const features = [
 const About = () => {
   return (
     <Layout>
+      <SEO 
+        title="आमच्याबद्दल - About Us"
+        description="Incite Computer Phondaghat - महाराष्ट्र शासन व MKCL मान्यताप्राप्त संगणक प्रशिक्षण केंद्र. 10+ वर्षांचा अनुभव, 1000+ यशस्वी विद्यार्थी. Phondaghat, Sindhudurg मधील सर्वोत्तम computer training institute."
+        keywords="About Incite Computer, Computer Institute Phondaghat, MKCL Training Center, Phonda Computer Classes, Sindhudurg IT Training"
+        canonical="/about"
+      />
       {/* Hero Section with Team Photos Row */}
       <section className="relative py-20 md:py-28 overflow-hidden bg-gradient-to-b from-background to-muted/30">
         {/* Floating decorative elements */}

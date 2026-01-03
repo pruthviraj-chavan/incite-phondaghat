@@ -1,6 +1,7 @@
 import { useParams, Link, Navigate } from "react-router-dom";
 import { Calendar, Clock, ArrowLeft, Share2, Phone } from "lucide-react";
 import Layout from "@/components/layout/Layout";
+import SEO from "@/components/SEO";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
@@ -440,7 +441,24 @@ const BlogPost = () => {
 
   return (
     <Layout>
-      {/* Hero */}
+      <SEO 
+        title={post.title}
+        description={post.metaDescription}
+        keywords={post.keywords.join(", ")}
+        canonical={`/blog/${slug}`}
+        ogType="article"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": post.title,
+          "description": post.metaDescription,
+          "datePublished": post.date,
+          "author": {
+            "@type": "Organization",
+            "name": "Incite Computer Phondaghat"
+          }
+        }}
+      />
       <section className="relative">
         <div className="absolute inset-0">
           <img

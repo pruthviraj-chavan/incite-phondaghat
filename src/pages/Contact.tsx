@@ -16,6 +16,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import Layout from "@/components/layout/Layout";
+import SEO from "@/components/SEO";
 
 const WHATSAPP_NUMBER = "917499697181";
 const WHATSAPP_LINK = `https://wa.me/${WHATSAPP_NUMBER}`;
@@ -121,7 +122,12 @@ const Contact = () => {
 
   return (
     <Layout>
-      {/* Hero Section */}
+      <SEO 
+        title="Contact Us - संपर्क करा"
+        description="Contact Incite Computer Phondaghat for course enquiry. Address: Gandhi Chowk, Phondaghat, Sindhudurg. Call: +91 74996 97181. WhatsApp available. Visit us for MS-CIT, Typing, CCC course admission."
+        keywords="Contact Incite Computer, Computer Classes Phondaghat Contact, MKCL Center Address, Phonda Computer Institute Phone"
+        canonical="/contact"
+      />
       <section className="relative py-20 md:py-28 overflow-hidden bg-gradient-to-br from-primary/5 via-background to-secondary/5">
         {/* Decorative shapes */}
         <div className="absolute top-20 left-10 w-20 h-20 rounded-full bg-secondary/10 animate-float" />
