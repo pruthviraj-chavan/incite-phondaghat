@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Layout from "@/components/layout/Layout";
+import SEO from "@/components/SEO";
 import HeroSection from "@/components/sections/HeroSection";
 import MissionSection from "@/components/sections/MissionSection";
 import TeamSection from "@/components/sections/TeamSection";
@@ -14,7 +15,23 @@ import CommunitySection from "@/components/sections/CommunitySection";
 const Index = () => {
   return (
     <Layout>
-      {/* Advanced Hero Section */}
+      <SEO 
+        canonical="/"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "LocalBusiness",
+          "name": "Incite Computer Phondaghat",
+          "description": "Government approved computer training institute",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Gandhi Chowk",
+            "addressLocality": "Phondaghat",
+            "addressRegion": "Maharashtra",
+            "addressCountry": "IN"
+          },
+          "telephone": "+917499697181"
+        }}
+      />
       <HeroSection />
 
       {/* Mission Section */}

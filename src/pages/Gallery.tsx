@@ -1,6 +1,7 @@
 import { useState, useRef, lazy, Suspense } from "react";
 import { X, ChevronLeft, ChevronRight, Play, ArrowLeft, ArrowRight, Youtube } from "lucide-react";
 import Layout from "@/components/layout/Layout";
+import SEO from "@/components/SEO";
 import heroImage from "@/assets/hero-classroom.jpg";
 
 const galleryCategories = [
@@ -128,7 +129,12 @@ const Gallery = () => {
 
   return (
     <Layout>
-      {/* Hero Section */}
+      <SEO 
+        title="Photo & Video Gallery"
+        description="View photos and videos from Incite Computer Phondaghat. See our modern computer lab, training sessions, certificate ceremonies and student success stories from Phondaghat, Sindhudurg."
+        keywords="Computer Institute Gallery Phondaghat, MKCL Center Photos, Student Photos Sindhudurg, Computer Lab Phonda"
+        canonical="/gallery"
+      />
       <section className="relative py-20 md:py-28 overflow-hidden bg-gradient-to-b from-background to-muted/30">
         <div className="container-main relative z-10 px-4">
           <div className="text-center max-w-4xl mx-auto">

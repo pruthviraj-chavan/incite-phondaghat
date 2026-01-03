@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Calendar, Clock, ArrowRight, Search } from "lucide-react";
 import { useState } from "react";
 import Layout from "@/components/layout/Layout";
+import SEO from "@/components/SEO";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -76,9 +77,12 @@ const Blog = () => {
 
   return (
     <Layout>
-      {/* SEO Meta - would be handled by react-helmet in production */}
-      
-      {/* Hero Section */}
+      <SEO 
+        title="Blog - संगणक शिक्षण ब्लॉग"
+        description="MSCIT, Tally, Typing, MS Office computer courses बद्दल माहिती मराठी मध्ये. Phondaghat, Phonda, Sindhudurg computer training tips and guides."
+        keywords="Computer Blog Phondaghat, MSCIT Tips Marathi, Tally Course Guide, Typing Tips Sindhudurg, Computer Education Blog"
+        canonical="/blog"
+      />
       <section className="hero-gradient py-16 md:py-24">
         <div className="container-main px-4">
           <div className="max-w-3xl mx-auto text-center animate-fade-up">

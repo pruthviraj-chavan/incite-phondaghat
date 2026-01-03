@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Layout from "@/components/layout/Layout";
+import SEO from "@/components/SEO";
 
 const categories = [
   { id: "all", label: "All Categories", icon: Grid3X3 },
@@ -155,7 +156,12 @@ const Courses = () => {
 
   return (
     <Layout>
-      {/* Hero Section */}
+      <SEO 
+        title="Computer Courses - MS-CIT, Typing, CCC, GCC-TBC"
+        description="Explore computer courses at Incite Computer Phondaghat. MS-CIT, Tally Prime, Marathi/English Typing, CCC, GCC-TBC courses. Government certified training in Phondaghat, Sindhudurg."
+        keywords="MS-CIT Course Phondaghat, Typing Course Sindhudurg, CCC Course Phonda, GCC-TBC Training, Tally Course Phondaghat, Computer Classes Konkan"
+        canonical="/courses"
+      />
       <section className="relative py-20 md:py-28 overflow-hidden bg-gradient-to-b from-background to-muted/30">
         <div className="container-main relative z-10 px-4">
           <div className="text-center max-w-4xl mx-auto">
