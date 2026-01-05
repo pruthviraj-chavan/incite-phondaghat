@@ -1,73 +1,102 @@
 import { Link } from "react-router-dom";
 import { Calendar, Clock, ArrowRight, Search } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Layout from "@/components/layout/Layout";
 import SEO from "@/components/SEO";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { supabase } from "@/integrations/supabase/client";
 
-const blogPosts = [
+// Static fallback blog posts
+const staticBlogPosts = [
   {
-    id: 1,
+    id: "1",
     slug: "mscit-course-phondaghat-computer-training",
     title: "MSCIT कोर्स - फोंडाघाट मधील सर्वोत्तम संगणक प्रशिक्षण",
     excerpt: "MSCIT (Maharashtra State Certificate in Information Technology) हा महाराष्ट्र सरकारने मान्यता दिलेला संगणक कोर्स आहे. फोंडा, फोंडाघाट येथील Incite Computer मध्ये हा कोर्स शिका.",
-    date: "2024-01-15",
-    readTime: "5 मिनिटे",
+    created_at: "2024-01-15",
+    read_time: "5 मिनिटे",
     category: "MSCIT",
-    image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600",
-    keywords: ["mscit", "phondaghat", "computer course", "government certificate"]
+    image_url: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600",
   },
   {
-    id: 2,
+    id: "2",
     slug: "tally-prime-accounting-course-phonda",
     title: "Tally Prime कोर्स - फोंडा येथे Accounting शिका",
     excerpt: "Tally Prime हा भारतातील सर्वात लोकप्रिय accounting software आहे. फोंडाघाट, फोंडा येथील Incite Computer मध्ये Tally कोर्स शिकून नोकरी मिळवा.",
-    date: "2024-01-10",
-    readTime: "7 मिनिटे",
+    created_at: "2024-01-10",
+    read_time: "7 मिनिटे",
     category: "Tally",
-    image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600",
-    keywords: ["tally", "accounting", "phondaghat", "job opportunity"]
+    image_url: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600",
   },
   {
-    id: 3,
+    id: "3",
     slug: "english-marathi-typing-course-phondaghat",
     title: "English व Marathi Typing कोर्स - फोंडाघाट",
     excerpt: "Government job साठी typing test अनिवार्य आहे. Incite Computer फोंडाघाट येथे English आणि Marathi typing शिका आणि सरकारी नोकरी मिळवा.",
-    date: "2024-01-05",
-    readTime: "4 मिनिटे",
+    created_at: "2024-01-05",
+    read_time: "4 मिनिटे",
     category: "Typing",
-    image: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=600",
-    keywords: ["typing", "government job", "phondaghat", "marathi typing"]
+    image_url: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=600",
   },
   {
-    id: 4,
+    id: "4",
     slug: "ms-office-excel-word-course-phonda-ghat",
     title: "MS Office (Excel, Word, PowerPoint) कोर्स - फोंडाघाट",
     excerpt: "MS Office हा कोणत्याही ऑफिस जॉब साठी आवश्यक skill आहे. Incite Computer Phondaghat येथे Excel, Word, PowerPoint शिका.",
-    date: "2024-01-01",
-    readTime: "6 मिनिटे",
+    created_at: "2024-01-01",
+    read_time: "6 मिनिटे",
     category: "MS Office",
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600",
-    keywords: ["ms office", "excel", "word", "phondaghat", "office job"]
+    image_url: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600",
   },
   {
-    id: 5,
+    id: "5",
     slug: "computer-basic-course-beginners-phondaghat",
     title: "Computer Basic कोर्स - नवीन शिकणाऱ्यांसाठी फोंडाघाट",
     excerpt: "संगणक शिकायचे आहे पण कुठून सुरू करायचे माहित नाही? Incite Computer फोंडा, फोंडाघाट येथे Computer Basics शिका - सर्व वयोगटासाठी.",
-    date: "2023-12-28",
-    readTime: "5 मिनिटे",
+    created_at: "2023-12-28",
+    read_time: "5 मिनिटे",
     category: "Basic Computer",
-    image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600",
-    keywords: ["computer basics", "beginners", "phondaghat", "phonda", "all ages"]
+    image_url: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600",
   }
 ];
 
+interface BlogPost {
+  id: string;
+  slug: string;
+  title: string;
+  excerpt: string;
+  created_at: string;
+  read_time: string;
+  category: string;
+  image_url: string | null;
+}
+
 const Blog = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [blogPosts, setBlogPosts] = useState<BlogPost[]>(staticBlogPosts);
+
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      const { data, error } = await supabase
+        .from("blogs")
+        .select("id, slug, title, excerpt, created_at, read_time, category, image_url")
+        .order("created_at", { ascending: false });
+
+      if (data && data.length > 0) {
+        // Merge dynamic blogs with static ones
+        const dynamicBlogs = data.map(blog => ({
+          ...blog,
+          image_url: blog.image_url || "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600"
+        }));
+        setBlogPosts([...dynamicBlogs, ...staticBlogPosts]);
+      }
+    };
+
+    fetchBlogs();
+  }, []);
 
   const filteredPosts = blogPosts.filter(post =>
     post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -128,7 +157,7 @@ const Blog = () => {
                 >
                   <div className="relative overflow-hidden aspect-video">
                     <img
-                      src={post.image}
+                      src={post.image_url || "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600"}
                       alt={post.title}
                       loading="lazy"
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
@@ -142,11 +171,11 @@ const Blog = () => {
                     <div className="flex items-center gap-4 text-sm text-muted-foreground mb-2">
                       <span className="flex items-center gap-1">
                         <Calendar className="w-4 h-4" />
-                        {new Date(post.date).toLocaleDateString('mr-IN')}
+                        {new Date(post.created_at).toLocaleDateString('mr-IN')}
                       </span>
                       <span className="flex items-center gap-1">
                         <Clock className="w-4 h-4" />
-                        {post.readTime}
+                        {post.read_time}
                       </span>
                     </div>
                     <h2 className="text-lg font-bold text-foreground line-clamp-2 group-hover:text-primary transition-colors">

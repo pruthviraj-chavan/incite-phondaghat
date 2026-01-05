@@ -1,8 +1,8 @@
-import { useState, useRef, lazy, Suspense } from "react";
+import { useState, useRef, useEffect } from "react";
 import { X, ChevronLeft, ChevronRight, Play, ArrowLeft, ArrowRight, Youtube } from "lucide-react";
 import Layout from "@/components/layout/Layout";
 import SEO from "@/components/SEO";
-import heroImage from "@/assets/hero-classroom.jpg";
+import { supabase } from "@/integrations/supabase/client";
 
 const galleryCategories = [
   { id: "all", name: "All Photos", nameMarathi: "सर्व फोटो" },
@@ -12,80 +12,85 @@ const galleryCategories = [
   { id: "workshops", name: "Workshops", nameMarathi: "कार्यशाळा" },
 ];
 
-const galleryImages = [
-  { id: 1, category: "classroom", image: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=600", alt: "Students in computer classroom" },
-  { id: 2, category: "classroom", image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?w=600", alt: "Practical training session" },
-  { id: 3, category: "classroom", image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600", alt: "Theory class in progress" },
-  { id: 4, category: "exams", image: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=600", alt: "Online examination" },
-  { id: 5, category: "exams", image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=600", alt: "Typing test session" },
-  { id: 6, category: "certificates", image: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=600", alt: "Certificate ceremony" },
-  { id: 7, category: "certificates", image: "https://images.unsplash.com/photo-1627556704302-624286467c65?w=600", alt: "Award distribution" },
-  { id: 8, category: "workshops", image: "https://images.unsplash.com/photo-1540317580384-e5d43616b9aa?w=600", alt: "Special workshop" },
-  { id: 9, category: "workshops", image: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=600", alt: "Guest lecture" },
+// Static fallback data
+const staticGalleryImages = [
+  { id: "1", category: "classroom", image_url: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=600", alt_text: "Students in computer classroom" },
+  { id: "2", category: "classroom", image_url: "https://images.unsplash.com/photo-1531482615713-2afd69097998?w=600", alt_text: "Practical training session" },
+  { id: "3", category: "classroom", image_url: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600", alt_text: "Theory class in progress" },
+  { id: "4", category: "exams", image_url: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=600", alt_text: "Online examination" },
+  { id: "5", category: "exams", image_url: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=600", alt_text: "Typing test session" },
+  { id: "6", category: "certificates", image_url: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=600", alt_text: "Certificate ceremony" },
+  { id: "7", category: "certificates", image_url: "https://images.unsplash.com/photo-1627556704302-624286467c65?w=600", alt_text: "Award distribution" },
+  { id: "8", category: "workshops", image_url: "https://images.unsplash.com/photo-1540317580384-e5d43616b9aa?w=600", alt_text: "Special workshop" },
+  { id: "9", category: "workshops", image_url: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=600", alt_text: "Guest lecture" },
 ];
 
-// TODO: Replace these with your actual YouTube video IDs
-const videoTestimonials = [
+const staticVideoTestimonials = [
   { 
-    id: 1, 
-    name: "राहुल पाटील", 
+    id: "1", 
+    student_name: "राहुल पाटील", 
     role: "MS-CIT Student",
-    // Replace with actual YouTube video ID
-    youtubeId: "dQw4w9WgXcQ",
-    thumbnail: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=500&fit=crop&crop=face"
+    youtube_id: "dQw4w9WgXcQ",
+    thumbnail_url: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=500&fit=crop&crop=face"
   },
   { 
-    id: 2, 
-    name: "प्रिया शिंदे", 
+    id: "2", 
+    student_name: "प्रिया शिंदे", 
     role: "Typing Student",
-    youtubeId: "dQw4w9WgXcQ",
-    thumbnail: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=500&fit=crop&crop=face"
+    youtube_id: "dQw4w9WgXcQ",
+    thumbnail_url: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=500&fit=crop&crop=face"
   },
   { 
-    id: 3, 
-    name: "सुनील जाधव", 
+    id: "3", 
+    student_name: "सुनील जाधव", 
     role: "CCC Student",
-    youtubeId: "dQw4w9WgXcQ",
-    thumbnail: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=500&fit=crop&crop=face"
-  },
-  { 
-    id: 4, 
-    name: "नेहा देशमुख", 
-    role: "Tally Student",
-    youtubeId: "dQw4w9WgXcQ",
-    thumbnail: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&h=500&fit=crop&crop=face"
-  },
-  { 
-    id: 5, 
-    name: "अमित कुलकर्णी", 
-    role: "GCC-TBC Student",
-    youtubeId: "dQw4w9WgXcQ",
-    thumbnail: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=500&fit=crop&crop=face"
+    youtube_id: "dQw4w9WgXcQ",
+    thumbnail_url: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=500&fit=crop&crop=face"
   },
 ];
 
-// TODO: Add your YouTube video IDs here for Institute Videos section
-const instituteVideos = [
+const staticInstituteVideos = [
   {
-    id: 1,
+    id: "1",
     title: "Institute Tour",
     description: "आमच्या संस्थेची व्हर्च्युअल टूर",
-    // Replace with actual YouTube video ID
-    youtubeId: "dQw4w9WgXcQ",
+    youtube_id: "dQw4w9WgXcQ",
   },
   {
-    id: 2,
+    id: "2",
     title: "Lab Facility",
     description: "आधुनिक कॉम्प्युटर लॅब",
-    youtubeId: "dQw4w9WgXcQ",
+    youtube_id: "dQw4w9WgXcQ",
   },
   {
-    id: 3,
+    id: "3",
     title: "Training Session",
     description: "प्रशिक्षण सत्राचे व्हिडिओ",
-    youtubeId: "dQw4w9WgXcQ",
+    youtube_id: "dQw4w9WgXcQ",
   },
 ];
+
+interface GalleryImage {
+  id: string;
+  category: string;
+  image_url: string;
+  alt_text: string;
+}
+
+interface VideoTestimonial {
+  id: string;
+  student_name: string;
+  role: string | null;
+  youtube_id: string;
+  thumbnail_url: string | null;
+}
+
+interface InstituteVideo {
+  id: string;
+  title: string;
+  description: string | null;
+  youtube_id: string;
+}
 
 const Gallery = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
@@ -93,6 +98,32 @@ const Gallery = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [activeVideoId, setActiveVideoId] = useState<string | null>(null);
   const testimonialRef = useRef<HTMLDivElement>(null);
+
+  const [galleryImages, setGalleryImages] = useState<GalleryImage[]>(staticGalleryImages);
+  const [videoTestimonials, setVideoTestimonials] = useState<VideoTestimonial[]>(staticVideoTestimonials);
+  const [instituteVideos, setInstituteVideos] = useState<InstituteVideo[]>(staticInstituteVideos);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const [imagesRes, testimonialsRes, videosRes] = await Promise.all([
+        supabase.from("gallery_images").select("*").order("created_at", { ascending: false }),
+        supabase.from("student_testimonials").select("*").order("created_at", { ascending: false }),
+        supabase.from("institute_videos").select("*").order("created_at", { ascending: false }),
+      ]);
+
+      if (imagesRes.data && imagesRes.data.length > 0) {
+        setGalleryImages(imagesRes.data);
+      }
+      if (testimonialsRes.data && testimonialsRes.data.length > 0) {
+        setVideoTestimonials(testimonialsRes.data);
+      }
+      if (videosRes.data && videosRes.data.length > 0) {
+        setInstituteVideos(videosRes.data);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const filteredImages = selectedCategory === "all"
     ? galleryImages
@@ -159,7 +190,6 @@ const Gallery = () => {
               यशस्वी विद्यार्थ्यांचे
               <span className="block text-secondary">अनुभव व्हिडिओ</span>
             </h2>
-            {/* TODO: Replace YouTube video IDs in videoTestimonials array above */}
           </div>
 
           <div className="relative">
@@ -188,11 +218,11 @@ const Gallery = () => {
                   key={testimonial.id}
                   className="relative flex-shrink-0 w-64 md:w-80 rounded-2xl overflow-hidden group cursor-pointer"
                   style={{ scrollSnapAlign: 'start' }}
-                  onClick={() => setActiveVideoId(testimonial.youtubeId)}
+                  onClick={() => setActiveVideoId(testimonial.youtube_id)}
                 >
                   <img
-                    src={testimonial.thumbnail}
-                    alt={testimonial.name}
+                    src={testimonial.thumbnail_url || `https://img.youtube.com/vi/${testimonial.youtube_id}/maxresdefault.jpg`}
+                    alt={testimonial.student_name}
                     className="w-full h-80 md:h-96 object-cover transition-transform duration-500 group-hover:scale-105"
                     loading="lazy"
                   />
@@ -209,7 +239,7 @@ const Gallery = () => {
                   
                   {/* Info */}
                   <div className="absolute bottom-0 left-0 right-0 p-5">
-                    <h3 className="text-lg font-bold text-primary-foreground">{testimonial.name}</h3>
+                    <h3 className="text-lg font-bold text-primary-foreground">{testimonial.student_name}</h3>
                     <p className="text-sm text-primary-foreground/70">{testimonial.role}</p>
                   </div>
                   
@@ -246,7 +276,6 @@ const Gallery = () => {
             <h2 className="text-3xl font-bold text-foreground mb-4">
               संस्थेचे <span className="text-gradient">व्हिडिओ गॅलरी</span>
             </h2>
-            {/* TODO: Replace YouTube video IDs in instituteVideos array above */}
           </div>
 
           <div className="grid md:grid-cols-3 gap-6">
@@ -254,11 +283,11 @@ const Gallery = () => {
               <div 
                 key={video.id}
                 className="group cursor-pointer"
-                onClick={() => setActiveVideoId(video.youtubeId)}
+                onClick={() => setActiveVideoId(video.youtube_id)}
               >
                 <div className="relative rounded-2xl overflow-hidden bg-muted aspect-video">
                   <img
-                    src={`https://img.youtube.com/vi/${video.youtubeId}/maxresdefault.jpg`}
+                    src={`https://img.youtube.com/vi/${video.youtube_id}/maxresdefault.jpg`}
                     alt={video.title}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     loading="lazy"
@@ -317,8 +346,8 @@ const Gallery = () => {
               >
                 <div className="relative overflow-hidden rounded-2xl">
                   <img
-                    src={image.image}
-                    alt={image.alt}
+                    src={image.image_url}
+                    alt={image.alt_text}
                     className={`w-full object-cover transition-transform duration-500 group-hover:scale-110 ${
                       index % 3 === 0 ? 'h-72' : index % 3 === 1 ? 'h-56' : 'h-64'
                     }`}
@@ -331,7 +360,7 @@ const Gallery = () => {
                   </div>
                 </div>
                 <p className="mt-2 text-sm text-muted-foreground text-center">
-                  {image.alt}
+                  {image.alt_text}
                 </p>
               </div>
             ))}
@@ -373,8 +402,8 @@ const Gallery = () => {
           </button>
 
           <img
-            src={filteredImages[currentImageIndex]?.image}
-            alt={filteredImages[currentImageIndex]?.alt}
+            src={filteredImages[currentImageIndex]?.image_url}
+            alt={filteredImages[currentImageIndex]?.alt_text}
             className="max-w-[90vw] max-h-[85vh] object-contain rounded-lg"
           />
 
@@ -391,23 +420,23 @@ const Gallery = () => {
           onClick={() => setActiveVideoId(null)}
         >
           <button
-            onClick={() => setActiveVideoId(null)}
             className="absolute top-4 right-4 w-12 h-12 rounded-full bg-primary-foreground/10 hover:bg-primary-foreground/20 flex items-center justify-center text-primary-foreground transition-colors z-10"
+            onClick={() => setActiveVideoId(null)}
             aria-label="Close"
           >
             <X className="w-6 h-6" />
           </button>
-
+          
           <div 
             className="w-full max-w-4xl aspect-video"
             onClick={(e) => e.stopPropagation()}
           >
             <iframe
-              className="w-full h-full rounded-2xl"
-              src={`https://www.youtube.com/embed/${activeVideoId}?autoplay=1&rel=0`}
-              title="YouTube video"
+              src={`https://www.youtube.com/embed/${activeVideoId}?autoplay=1`}
+              title="YouTube video player"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
+              className="w-full h-full rounded-lg"
             />
           </div>
         </div>
