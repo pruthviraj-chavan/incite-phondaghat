@@ -11,7 +11,6 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
-import heroBg from "@/assets/hero-bg1.jpg";
 import heroBg from "@/assets/hero-bg1.jpg";      // Hero section background
 import videoOverlayImg from "@/assets/hero-bg.jpeg"; // Video thumbnail / overlay
 
