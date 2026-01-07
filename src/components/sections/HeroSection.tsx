@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
-import heroBg from "@/assets/hero-bg.jpeg";
+import heroBg from "@/assets/hero-bg1.jpg";
 
 const HeroSection = () => {
   const navigate = useNavigate();
