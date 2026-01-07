@@ -74,7 +74,7 @@ const Index = () => {
               </Link>
               <a href="tel:+919999999999">
                 <Button variant="heroOutline" size="lg">
-                  Call: +91 99999 99999
+                  Call: +91 7499697181
                 </Button>
               </a>
             </div>
