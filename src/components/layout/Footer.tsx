@@ -54,9 +54,10 @@ const Footer = () => {
                 "MS-CIT",
                 "Marathi Typing",
                 "English Typing",
-                "CCC Course",
-                "GCC-TBC",
-                "Office Automation",
+                "CCTP",
+                "Tally Prime",
+                "English Speaking",
+                "Advanced Excel"
               ].map((course) => (
                 <li key={course}>
                   <Link
@@ -82,8 +83,8 @@ const Footer = () => {
               </li>
               <li className="flex items-center gap-3">
                 <Phone className="w-5 h-5 text-secondary shrink-0" />
-                <a href="tel:+919999999999" className="text-sm opacity-80 hover:text-secondary transition-colors">
-                  +91 99999 99999
+                <a href="tel:+917499697181" className="text-sm opacity-80 hover:text-secondary transition-colors">
+                  +917499697181
                 </a>
               </li>
               <li className="flex items-center gap-3">
