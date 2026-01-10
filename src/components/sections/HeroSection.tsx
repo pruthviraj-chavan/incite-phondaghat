@@ -195,7 +195,7 @@ const HeroSection = () => {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="Search for MS-CIT, Typing, CCC, GCC-TBC courses..."
+                placeholder="Search for MS-CIT, Typing, CCTP courses..."
                 className="flex-1 bg-transparent text-primary-foreground placeholder:text-primary-foreground/50 text-sm outline-none"
               />
               <button 
