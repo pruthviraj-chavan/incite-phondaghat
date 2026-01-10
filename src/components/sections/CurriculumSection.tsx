@@ -15,12 +15,12 @@ const curriculum = [
     content: "Speed typing, accuracy, government exam patterns",
   },
   {
-    title: "CCC - Course on Computer Concepts",
+    title: "Advance Excel",
     week: "Module 03",
     content: "Operating system, word processing, spreadsheets, presentations",
   },
   {
-    title: "GCC-TBC - Govt Commercial Certificate",
+    title: "CCTP Certificate of Computer Typing Proficiency",
     week: "Module 04",
     content: "Typing and basic computer concepts for government jobs",
   },
