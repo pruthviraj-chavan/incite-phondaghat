@@ -23,7 +23,7 @@ const HeroSection = () => {
   const words = ["संगणक शिक्षण", "Typing Classes", "Government Courses", "Career Growth"];
 
   // TODO: Replace with your YouTube video ID
-  const YOUTUBE_VIDEO_ID = "jhPUI3yt8z8"; // Replace this with your actual YouTube video ID
+  const YOUTUBE_VIDEO_ID = "qvp_4pcH_TQ"; // Replace this with your actual YouTube video ID
 
   const handleSearch = () => {
     if (searchQuery.trim()) {
