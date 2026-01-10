@@ -67,27 +67,33 @@ export type Database = {
           alt_text: string
           category: string
           created_at: string
+          description: string | null
           id: string
           image_url: string
           storage_path: string | null
+          title: string | null
           updated_at: string
         }
         Insert: {
           alt_text: string
           category?: string
           created_at?: string
+          description?: string | null
           id?: string
           image_url: string
           storage_path?: string | null
+          title?: string | null
           updated_at?: string
         }
         Update: {
           alt_text?: string
           category?: string
           created_at?: string
+          description?: string | null
           id?: string
           image_url?: string
           storage_path?: string | null
+          title?: string | null
           updated_at?: string
         }
         Relationships: []
@@ -146,6 +152,42 @@ export type Database = {
           thumbnail_url?: string | null
           updated_at?: string
           youtube_id?: string
+        }
+        Relationships: []
+      }
+      team_members: {
+        Row: {
+          created_at: string
+          display_order: number | null
+          id: string
+          image_url: string | null
+          is_leadership: boolean | null
+          name: string
+          role: string
+          storage_path: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          display_order?: number | null
+          id?: string
+          image_url?: string | null
+          is_leadership?: boolean | null
+          name: string
+          role: string
+          storage_path?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          display_order?: number | null
+          id?: string
+          image_url?: string | null
+          is_leadership?: boolean | null
+          name?: string
+          role?: string
+          storage_path?: string | null
+          updated_at?: string
         }
         Relationships: []
       }
