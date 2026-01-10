@@ -9,7 +9,8 @@ import {
   FileText, 
   LogOut,
   Menu,
-  X
+  X,
+  Users
 } from "lucide-react";
 import { useState } from "react";
 
@@ -22,6 +23,7 @@ const navItems = [
   { path: "/admin/gallery", label: "Gallery Images", icon: Image },
   { path: "/admin/videos", label: "Videos", icon: Video },
   { path: "/admin/blogs", label: "Blogs", icon: FileText },
+  { path: "/admin/team", label: "Team Members", icon: Users },
 ];
 
 const AdminLayout = ({ children }: AdminLayoutProps) => {

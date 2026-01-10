@@ -17,6 +17,8 @@ interface GalleryImage {
   image_url: string;
   alt_text: string;
   storage_path: string | null;
+  title: string | null;
+  description: string | null;
 }
 
 const categories = [
@@ -35,6 +37,8 @@ const AdminGallery = () => {
   const [newImage, setNewImage] = useState({
     category: "classroom",
     alt_text: "",
+    title: "",
+    description: "",
     file: null as File | null,
   });
 
@@ -95,12 +99,14 @@ const AdminGallery = () => {
           image_url: urlData.publicUrl,
           alt_text: newImage.alt_text,
           storage_path: storagePath,
+          title: newImage.title || null,
+          description: newImage.description || null,
         });
 
       if (insertError) throw insertError;
 
       toast.success("Image uploaded successfully!");
-      setNewImage({ category: "classroom", alt_text: "", file: null });
+      setNewImage({ category: "classroom", alt_text: "", title: "", description: "", file: null });
       fetchImages();
     } catch (error: any) {
       toast.error("Upload failed: " + error.message);
@@ -175,11 +181,29 @@ const AdminGallery = () => {
                 </Select>
               </div>
               <div className="space-y-2">
-                <Label>Alt Text / Description</Label>
+                <Label>Alt Text</Label>
                 <Input
                   value={newImage.alt_text}
                   onChange={(e) => setNewImage({ ...newImage, alt_text: e.target.value })}
                   placeholder="e.g., Students in computer lab"
+                />
+              </div>
+            </div>
+            <div className="grid sm:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label>Title (for Carousel)</Label>
+                <Input
+                  value={newImage.title}
+                  onChange={(e) => setNewImage({ ...newImage, title: e.target.value })}
+                  placeholder="e.g., अमित शर्मा (MS-CIT Batch)"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label>Description (for Carousel)</Label>
+                <Input
+                  value={newImage.description}
+                  onChange={(e) => setNewImage({ ...newImage, description: e.target.value })}
+                  placeholder="e.g., MS-CIT Course"
                 />
               </div>
             </div>

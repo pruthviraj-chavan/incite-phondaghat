@@ -20,13 +20,25 @@ import { Button } from "@/components/ui/button";
 import Layout from "@/components/layout/Layout";
 import SEO from "@/components/SEO";
 import heroImage from "@/assets/hero-classroom.jpg";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 
-const teamMembers = [
-  { name: "प्रशांत वंजुळे", role: "संचालक", color: "bg-pink-100" },
-  { name: "नेहा अरेकर", role: "संगणक प्रशिक्षक", color: "bg-blue-100" },
-  { name: "पूजा", role: "वरिष्ठ प्रशिक्षक", color: "bg-green-100" },
-  { name: "अस्मिता", role: "वरिष्ठ प्रशिक्षक", color: "bg-yellow-100" },
+interface TeamMember {
+  id: string;
+  name: string;
+  role: string;
+  image_url: string | null;
+  is_leadership: boolean;
+}
+
+const fallbackTeamMembers = [
+  { id: "1", name: "प्रशांत वंजुळे", role: "संचालक", image_url: null, is_leadership: true },
+  { id: "2", name: "नेहा अरेकर", role: "संगणक प्रशिक्षक", image_url: null, is_leadership: true },
+  { id: "3", name: "पूजा", role: "वरिष्ठ प्रशिक्षक", image_url: null, is_leadership: true },
+  { id: "4", name: "अस्मिता", role: "वरिष्ठ प्रशिक्षक", image_url: null, is_leadership: true },
 ];
+
+const teamColors = ["bg-pink-100", "bg-blue-100", "bg-green-100", "bg-yellow-100"];
 
 const whyChooseFeatures = [
   { icon: Users, title: "1000+", description: "यशस्वी विद्यार्थी", position: "left-top" },
@@ -58,6 +70,21 @@ const features = [
 ];
 
 const About = () => {
+  const { data: teamMembers } = useQuery({
+    queryKey: ["about-team-members"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("team_members")
+        .select("*")
+        .eq("is_leadership", true)
+        .order("display_order", { ascending: true });
+      if (error) throw error;
+      return data as TeamMember[];
+    },
+  });
+
+  const displayTeamMembers = teamMembers && teamMembers.length > 0 ? teamMembers : fallbackTeamMembers;
+
   return (
     <Layout>
       <SEO 
@@ -119,25 +146,31 @@ const About = () => {
             {/* Team Photos Row - Auto-scrollable on mobile */}
             <div className="overflow-x-auto pb-4 scrollbar-hide animate-fade-up animation-delay-400">
               <div className="flex justify-start md:justify-center items-end gap-4 md:gap-6 min-w-max px-4 md:px-0 animate-marquee md:animate-none">
-                {teamMembers.map((member, index) => (
+                {displayTeamMembers.map((member, index) => (
                   <div 
-                    key={member.name}
+                    key={member.id}
                     className={`relative shrink-0 ${index === 2 ? 'z-10' : ''}`}
                     style={{ marginTop: index === 1 || index === 2 ? '0' : '20px' }}
                   >
                     <div 
-                      className={`${member.color} rounded-t-full overflow-hidden transition-transform hover:scale-105`}
+                      className={`${teamColors[index % teamColors.length]} rounded-t-full overflow-hidden transition-transform hover:scale-105`}
                       style={{ 
                         width: index === 2 ? '140px' : '110px',
                         height: index === 2 ? '180px' : '150px',
                       }}
                     >
-                      <img
-                        src={`https://images.unsplash.com/photo-${index === 0 ? '1507003211169-0a1dd7228f2d' : index === 1 ? '1500648767791-00dcc994a43e' : index === 2 ? '1472099645785-5658abf4ff4e' : '1519085360753-af0119f7cbe7'}?w=200&h=250&fit=crop&crop=face`}
-                        alt={member.name}
-                        className="w-full h-full object-cover object-top"
-                        loading="lazy"
-                      />
+                      {member.image_url ? (
+                        <img
+                          src={member.image_url}
+                          alt={member.name}
+                          className="w-full h-full object-cover object-top"
+                          loading="lazy"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center text-4xl font-bold text-muted-foreground bg-muted">
+                          {member.name.charAt(0)}
+                        </div>
+                      )}
                     </div>
                     <p className="text-sm font-medium text-foreground mt-2">{member.name}</p>
                     <p className="text-xs text-muted-foreground">{member.role}</p>

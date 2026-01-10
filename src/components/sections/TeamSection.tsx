@@ -1,27 +1,39 @@
-const teamMembers = [
-  {
-    name: "प्रशांत वंजुळे,",
-    role: "संस्थापक व संचालक",
-    color: "bg-destructive/80",
-  },
-  {
-    name: "नेहा अरेकर",
-    role: "Computer Trainer",
-    color: "bg-secondary",
-  },
-  {
-    name: "पूजा",
-    role: "Senior Trainer",
-    color: "bg-primary",
-  },
-  {
-    name: "अस्मिता",
-    role: "Typing Instructor",
-    color: "bg-green-500",
-  },
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+
+interface TeamMember {
+  id: string;
+  name: string;
+  role: string;
+  image_url: string | null;
+  is_leadership: boolean;
+}
+
+const fallbackTeamMembers = [
+  { id: "1", name: "प्रशांत वंजुळे", role: "संस्थापक व संचालक", image_url: null, is_leadership: true },
+  { id: "2", name: "नेहा अरेकर", role: "Computer Trainer", image_url: null, is_leadership: true },
+  { id: "3", name: "पूजा", role: "Senior Trainer", image_url: null, is_leadership: true },
+  { id: "4", name: "अस्मिता", role: "Typing Instructor", image_url: null, is_leadership: true },
 ];
 
+const colors = ["bg-destructive/80", "bg-secondary", "bg-primary", "bg-green-500"];
+
 const TeamSection = () => {
+  const { data: teamMembers } = useQuery({
+    queryKey: ["leadership-members"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("team_members")
+        .select("*")
+        .eq("is_leadership", true)
+        .order("display_order", { ascending: true });
+      if (error) throw error;
+      return data as TeamMember[];
+    },
+  });
+
+  const displayMembers = teamMembers && teamMembers.length > 0 ? teamMembers : fallbackTeamMembers;
+
   return (
     <section className="relative py-20 md:py-28 overflow-hidden bg-[hsl(35,50%,97%)]">
       {/* Decorative Shapes */}
@@ -45,17 +57,25 @@ const TeamSection = () => {
 
         {/* Team Grid */}
         <div className="flex flex-wrap justify-center gap-8 md:gap-12 lg:gap-16">
-          {teamMembers.map((member, index) => (
+          {displayMembers.map((member, index) => (
             <div 
-              key={member.name}
+              key={member.id}
               className="flex flex-col items-center animate-fade-up"
               style={{ animationDelay: `${index * 0.1}s` }}
             >
               {/* Profile Circle */}
-              <div className={`relative w-36 h-36 md:w-44 md:h-44 rounded-full ${member.color} flex items-center justify-center mb-4 shadow-lg`}>
-                <div className="w-32 h-32 md:w-40 md:h-40 rounded-full bg-muted flex items-center justify-center text-4xl font-bold text-muted-foreground">
-                  {member.name.charAt(0)}
-                </div>
+              <div className={`relative w-36 h-36 md:w-44 md:h-44 rounded-full ${colors[index % colors.length]} flex items-center justify-center mb-4 shadow-lg overflow-hidden`}>
+                {member.image_url ? (
+                  <img 
+                    src={member.image_url} 
+                    alt={member.name}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="w-32 h-32 md:w-40 md:h-40 rounded-full bg-muted flex items-center justify-center text-4xl font-bold text-muted-foreground">
+                    {member.name.charAt(0)}
+                  </div>
+                )}
               </div>
               {/* Name & Role */}
               <h3 className="text-lg md:text-xl font-bold text-foreground text-center uppercase tracking-wide">
