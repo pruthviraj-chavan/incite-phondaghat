@@ -14,6 +14,45 @@ export type Database = {
   }
   public: {
     Tables: {
+      ai_tools: {
+        Row: {
+          category: string
+          created_at: string
+          description: string
+          display_order: number | null
+          icon_url: string | null
+          id: string
+          is_featured: boolean | null
+          name: string
+          updated_at: string
+          url: string
+        }
+        Insert: {
+          category?: string
+          created_at?: string
+          description: string
+          display_order?: number | null
+          icon_url?: string | null
+          id?: string
+          is_featured?: boolean | null
+          name: string
+          updated_at?: string
+          url: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          description?: string
+          display_order?: number | null
+          icon_url?: string | null
+          id?: string
+          is_featured?: boolean | null
+          name?: string
+          updated_at?: string
+          url?: string
+        }
+        Relationships: []
+      }
       blogs: {
         Row: {
           category: string
@@ -62,6 +101,57 @@ export type Database = {
         }
         Relationships: []
       }
+      courses: {
+        Row: {
+          category: string
+          certificate: string | null
+          created_at: string
+          description: string
+          display_order: number | null
+          duration: string
+          id: string
+          image_url: string | null
+          lectures: number | null
+          name: string
+          popular: boolean | null
+          storage_path: string | null
+          subtitle: string | null
+          updated_at: string
+        }
+        Insert: {
+          category?: string
+          certificate?: string | null
+          created_at?: string
+          description: string
+          display_order?: number | null
+          duration: string
+          id?: string
+          image_url?: string | null
+          lectures?: number | null
+          name: string
+          popular?: boolean | null
+          storage_path?: string | null
+          subtitle?: string | null
+          updated_at?: string
+        }
+        Update: {
+          category?: string
+          certificate?: string | null
+          created_at?: string
+          description?: string
+          display_order?: number | null
+          duration?: string
+          id?: string
+          image_url?: string | null
+          lectures?: number | null
+          name?: string
+          popular?: boolean | null
+          storage_path?: string | null
+          subtitle?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       gallery_images: {
         Row: {
           alt_text: string
@@ -103,6 +193,7 @@ export type Database = {
           created_at: string
           description: string | null
           id: string
+          is_shorts: boolean | null
           title: string
           updated_at: string
           youtube_id: string
@@ -111,6 +202,7 @@ export type Database = {
           created_at?: string
           description?: string | null
           id?: string
+          is_shorts?: boolean | null
           title: string
           updated_at?: string
           youtube_id: string
@@ -119,6 +211,7 @@ export type Database = {
           created_at?: string
           description?: string | null
           id?: string
+          is_shorts?: boolean | null
           title?: string
           updated_at?: string
           youtube_id?: string
@@ -129,6 +222,7 @@ export type Database = {
         Row: {
           created_at: string
           id: string
+          is_shorts: boolean | null
           role: string | null
           student_name: string
           thumbnail_url: string | null
@@ -138,6 +232,7 @@ export type Database = {
         Insert: {
           created_at?: string
           id?: string
+          is_shorts?: boolean | null
           role?: string | null
           student_name: string
           thumbnail_url?: string | null
@@ -147,6 +242,7 @@ export type Database = {
         Update: {
           created_at?: string
           id?: string
+          is_shorts?: boolean | null
           role?: string | null
           student_name?: string
           thumbnail_url?: string | null
