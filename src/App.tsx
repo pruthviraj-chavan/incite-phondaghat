@@ -19,6 +19,9 @@ import AdminGallery from "./pages/admin/AdminGallery";
 import AdminVideos from "./pages/admin/AdminVideos";
 import AdminBlogs from "./pages/admin/AdminBlogs";
 import AdminTeam from "./pages/admin/AdminTeam";
+import AdminCourses from "./pages/admin/AdminCourses";
+import AdminAITools from "./pages/admin/AdminAITools";
+import AITools from "./pages/AITools";
 
 const queryClient = new QueryClient();
 
@@ -45,6 +48,9 @@ const App = () => (
               <Route path="/admin/videos" element={<AdminVideos />} />
               <Route path="/admin/blogs" element={<AdminBlogs />} />
               <Route path="/admin/team" element={<AdminTeam />} />
+              <Route path="/admin/courses" element={<AdminCourses />} />
+              <Route path="/admin/ai-tools" element={<AdminAITools />} />
+              <Route path="/ai-tools" element={<AITools />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

@@ -22,6 +22,8 @@ import {
 import { Button } from "@/components/ui/button";
 import Layout from "@/components/layout/Layout";
 import SEO from "@/components/SEO";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 
 const categories = [
   { id: "all", label: "All Categories", icon: Grid3X3 },
@@ -31,9 +33,9 @@ const categories = [
   { id: "skills", label: "Skills", icon: Briefcase },
 ];
 
-const allCourses = [
+const fallbackCourses = [
   {
-    id: 1,
+    id: "1",
     name: "MS-CIT",
     subtitle: "Maharashtra State Certificate in IT",
     description: "सर्वात लोकप्रिय संगणक अभ्यासक्रम. MS Office, Internet, Email, Windows operating system यांचे संपूर्ण प्रशिक्षण.",
@@ -42,10 +44,10 @@ const allCourses = [
     certificate: "MKCL Certified",
     category: "mkcl",
     popular: true,
-    image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600",
+    image_url: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600",
   },
   {
-    id: 2,
+    id: "2",
     name: "KLiC Courses",
     subtitle: "Knowledge Literacy Certification",
     description: "विविध क्षेत्रांसाठी specialized computer courses. Tally, DTP, Web Designing आणि इतर.",
@@ -53,10 +55,11 @@ const allCourses = [
     lectures: 36,
     certificate: "MKCL Certified",
     category: "mkcl",
-    image: "https://images.unsplash.com/photo-1551434678-e076c223a692?w=600",
+    popular: false,
+    image_url: "https://images.unsplash.com/photo-1551434678-e076c223a692?w=600",
   },
   {
-    id: 3,
+    id: "3",
     name: "Marathi Typing",
     subtitle: "30/40 WPM",
     description: "सरकारी नोकऱ्यांसाठी आवश्यक मराठी टायपिंग. ISM/Shree Lipi font वर प्रशिक्षण.",
@@ -64,10 +67,11 @@ const allCourses = [
     lectures: 24,
     certificate: "Govt. Recognized",
     category: "typing",
-    image: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=600",
+    popular: false,
+    image_url: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=600",
   },
   {
-    id: 4,
+    id: "4",
     name: "English Typing",
     subtitle: "30/40 WPM",
     description: "English typing with proper finger placement. Speed building और accuracy improvement.",
@@ -75,10 +79,11 @@ const allCourses = [
     lectures: 24,
     certificate: "Govt. Recognized",
     category: "typing",
-    image: "https://images.unsplash.com/photo-1555421689-491a97ff2040?w=600",
+    popular: false,
+    image_url: "https://images.unsplash.com/photo-1555421689-491a97ff2040?w=600",
   },
   {
-    id: 5,
+    id: "5",
     name: "CCC",
     subtitle: "Course on Computer Concepts",
     description: "NIELIT द्वारे मान्यताप्राप्त. केंद्र सरकारी नोकऱ्यांसाठी आवश्यक. Basic computer concepts आणि application training.",
@@ -87,10 +92,10 @@ const allCourses = [
     certificate: "NIELIT Certified",
     category: "government",
     popular: true,
-    image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=600",
+    image_url: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=600",
   },
   {
-    id: 6,
+    id: "6",
     name: "GCC-TBC",
     subtitle: "Govt Commercial Certificate",
     description: "Typing and Basic Computer course. महाराष्ट्र शासन मान्यताप्राप्त. सरकारी नोकऱ्यांसाठी valid.",
@@ -98,10 +103,11 @@ const allCourses = [
     lectures: 42,
     certificate: "Maharashtra Govt",
     category: "government",
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600",
+    popular: false,
+    image_url: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600",
   },
   {
-    id: 7,
+    id: "7",
     name: "Office Automation",
     subtitle: "Complete MS Office",
     description: "MS Word, Excel, PowerPoint, Internet, Email. Professional office work साठी संपूर्ण प्रशिक्षण.",
@@ -109,10 +115,11 @@ const allCourses = [
     lectures: 30,
     certificate: "Completion Certificate",
     category: "skills",
-    image: "https://images.unsplash.com/photo-1497215728101-856f4ea42174?w=600",
+    popular: false,
+    image_url: "https://images.unsplash.com/photo-1497215728101-856f4ea42174?w=600",
   },
   {
-    id: 8,
+    id: "8",
     name: "Tally Prime",
     subtitle: "Accounting Software",
     description: "GST billing, Accounting, Inventory management. व्यावसायिक accounting साठी आवश्यक.",
@@ -120,9 +127,23 @@ const allCourses = [
     lectures: 28,
     certificate: "Completion Certificate",
     category: "skills",
-    image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600",
+    popular: false,
+    image_url: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600",
   },
 ];
+
+interface Course {
+  id: string;
+  name: string;
+  subtitle: string | null;
+  description: string;
+  duration: string;
+  lectures: number | null;
+  certificate: string | null;
+  category: string;
+  popular: boolean | null;
+  image_url: string | null;
+}
 
 const mentors = [
   { name: "रमेश पाटील", role: "Product Designer", color: "bg-pink-200" },
@@ -136,6 +157,20 @@ const Courses = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [searchQuery, setSearchQuery] = useState(searchParams.get("search") || "");
 
+  const { data: courses } = useQuery({
+    queryKey: ["courses"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("courses")
+        .select("*")
+        .order("display_order", { ascending: true });
+      if (error) throw error;
+      return data as Course[];
+    },
+  });
+
+  const allCourses = courses && courses.length > 0 ? courses : fallbackCourses;
+
   useEffect(() => {
     const urlSearch = searchParams.get("search");
     if (urlSearch) {
@@ -147,7 +182,7 @@ const Courses = () => {
     const matchesCategory = selectedCategory === "all" || course.category === selectedCategory;
     const matchesSearch = searchQuery === "" || 
       course.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      course.subtitle.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (course.subtitle?.toLowerCase().includes(searchQuery.toLowerCase())) ||
       course.description.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesCategory && matchesSearch;
   });
@@ -228,7 +263,7 @@ const Courses = () => {
               <div className="grid md:grid-cols-2 gap-0">
                 <div className="relative h-64 md:h-auto">
                   <img
-                    src={featuredCourse.image}
+                    src={featuredCourse.image_url || "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600"}
                     alt={featuredCourse.name}
                     className="w-full h-full object-cover"
                   />
@@ -258,7 +293,7 @@ const Courses = () => {
                     </div>
                     <div className="flex items-center gap-2">
                       <BookOpen className="w-4 h-4 text-primary" />
-                      <span>{featuredCourse.lectures} lectures</span>
+                      <span>{featuredCourse.lectures || 0} lectures</span>
                     </div>
                   </div>
                   
@@ -290,7 +325,7 @@ const Courses = () => {
               >
                 <div className="relative h-48 overflow-hidden">
                   <img
-                    src={course.image}
+                    src={course.image_url || "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600"}
                     alt={course.name}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   />
@@ -326,7 +361,7 @@ const Courses = () => {
                     </div>
                     <div className="flex items-center gap-1">
                       <BookOpen className="w-3.5 h-3.5" />
-                      {course.lectures} lectures
+                      {course.lectures || 0} lectures
                     </div>
                   </div>
                   
@@ -409,14 +444,13 @@ const Courses = () => {
             <div className="flex flex-wrap justify-center gap-4">
               <Link to="/contact">
                 <Button variant="hero" size="lg">
-                  Get Free Counseling
-                  <ArrowRight className="w-5 h-5" />
+                  <Phone className="w-5 h-5" />
+                  Contact Now
                 </Button>
               </Link>
-              <a href="tel:+919999999999">
+              <a href="tel:+917499697181">
                 <Button variant="heroOutline" size="lg">
-                  <Phone className="w-5 h-5" />
-                  Call Now
+                  Call: +91 7499697181
                 </Button>
               </a>
             </div>

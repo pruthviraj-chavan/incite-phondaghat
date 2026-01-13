@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Switch } from "@/components/ui/switch";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Trash2, Plus, Video, Users } from "lucide-react";
@@ -16,6 +17,7 @@ interface InstituteVideo {
   title: string;
   description: string | null;
   youtube_id: string;
+  is_shorts: boolean | null;
 }
 
 interface StudentTestimonial {
@@ -24,12 +26,23 @@ interface StudentTestimonial {
   role: string | null;
   youtube_id: string;
   thumbnail_url: string | null;
+  is_shorts: boolean | null;
 }
 
 const extractYoutubeId = (url: string): string => {
+  // Handle YouTube Shorts URLs
+  const shortsRegex = /(?:youtube\.com\/shorts\/)([^"&?\/\s]{11})/;
+  const shortsMatch = url.match(shortsRegex);
+  if (shortsMatch) return shortsMatch[1];
+
+  // Handle regular YouTube URLs
   const regex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
   const match = url.match(regex);
   return match ? match[1] : url;
+};
+
+const isShortsUrl = (url: string): boolean => {
+  return url.includes('/shorts/');
 };
 
 const AdminVideos = () => {
@@ -38,8 +51,8 @@ const AdminVideos = () => {
   const [testimonials, setTestimonials] = useState<StudentTestimonial[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const [newVideo, setNewVideo] = useState({ title: "", description: "", youtube_url: "" });
-  const [newTestimonial, setNewTestimonial] = useState({ student_name: "", role: "", youtube_url: "", thumbnail_url: "" });
+  const [newVideo, setNewVideo] = useState({ title: "", description: "", youtube_url: "", is_shorts: false });
+  const [newTestimonial, setNewTestimonial] = useState({ student_name: "", role: "", youtube_url: "", thumbnail_url: "", is_shorts: false });
 
   const fetchData = async () => {
     const [videosRes, testimonialRes] = await Promise.all([
@@ -63,18 +76,20 @@ const AdminVideos = () => {
     }
 
     const youtubeId = extractYoutubeId(newVideo.youtube_url);
+    const isShorts = newVideo.is_shorts || isShortsUrl(newVideo.youtube_url);
 
     const { error } = await supabase.from("institute_videos").insert({
       title: newVideo.title,
       description: newVideo.description || null,
       youtube_id: youtubeId,
+      is_shorts: isShorts,
     });
 
     if (error) {
       toast.error("Failed to add video: " + error.message);
     } else {
       toast.success("Video added!");
-      setNewVideo({ title: "", description: "", youtube_url: "" });
+      setNewVideo({ title: "", description: "", youtube_url: "", is_shorts: false });
       fetchData();
     }
   };
@@ -98,19 +113,21 @@ const AdminVideos = () => {
     }
 
     const youtubeId = extractYoutubeId(newTestimonial.youtube_url);
+    const isShorts = newTestimonial.is_shorts || isShortsUrl(newTestimonial.youtube_url);
 
     const { error } = await supabase.from("student_testimonials").insert({
       student_name: newTestimonial.student_name,
       role: newTestimonial.role || null,
       youtube_id: youtubeId,
       thumbnail_url: newTestimonial.thumbnail_url || `https://img.youtube.com/vi/${youtubeId}/maxresdefault.jpg`,
+      is_shorts: isShorts,
     });
 
     if (error) {
       toast.error("Failed to add testimonial: " + error.message);
     } else {
       toast.success("Testimonial added!");
-      setNewTestimonial({ student_name: "", role: "", youtube_url: "", thumbnail_url: "" });
+      setNewTestimonial({ student_name: "", role: "", youtube_url: "", thumbnail_url: "", is_shorts: false });
       fetchData();
     }
   };
@@ -137,31 +154,31 @@ const AdminVideos = () => {
 
   return (
     <AdminLayout>
-      <div className="space-y-6">
+      <div className="space-y-6 max-w-full overflow-x-hidden">
         <div>
-          <h1 className="text-3xl font-bold">Videos</h1>
-          <p className="text-muted-foreground">Manage YouTube videos for gallery</p>
+          <h1 className="text-2xl md:text-3xl font-bold">Videos</h1>
+          <p className="text-muted-foreground text-sm">Manage YouTube videos for gallery</p>
         </div>
 
-        <Tabs defaultValue="institute">
-          <TabsList>
-            <TabsTrigger value="institute" className="gap-2">
+        <Tabs defaultValue="institute" className="w-full">
+          <TabsList className="w-full flex flex-wrap h-auto gap-1">
+            <TabsTrigger value="institute" className="gap-2 flex-1 min-w-[140px]">
               <Video className="w-4 h-4" />
-              Institute Videos
+              <span className="hidden sm:inline">Institute</span> Videos
             </TabsTrigger>
-            <TabsTrigger value="testimonials" className="gap-2">
+            <TabsTrigger value="testimonials" className="gap-2 flex-1 min-w-[140px]">
               <Users className="w-4 h-4" />
-              Student Testimonials
+              <span className="hidden sm:inline">Student</span> Testimonials
             </TabsTrigger>
           </TabsList>
 
           <TabsContent value="institute" className="space-y-4 mt-4">
             <Card>
-              <CardHeader>
-                <CardTitle>Add Institute Video</CardTitle>
+              <CardHeader className="pb-3">
+                <CardTitle className="text-lg">Add Institute Video</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="grid sm:grid-cols-2 gap-4">
+                <div className="grid gap-4">
                   <div className="space-y-2">
                     <Label>Title</Label>
                     <Input
@@ -171,11 +188,18 @@ const AdminVideos = () => {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label>YouTube URL</Label>
+                    <Label>YouTube URL (Regular or Shorts)</Label>
                     <Input
                       value={newVideo.youtube_url}
-                      onChange={(e) => setNewVideo({ ...newVideo, youtube_url: e.target.value })}
-                      placeholder="https://youtube.com/watch?v=..."
+                      onChange={(e) => {
+                        const url = e.target.value;
+                        setNewVideo({ 
+                          ...newVideo, 
+                          youtube_url: url,
+                          is_shorts: isShortsUrl(url)
+                        });
+                      }}
+                      placeholder="https://youtube.com/watch?v=... or https://youtube.com/shorts/..."
                     />
                   </div>
                 </div>
@@ -187,7 +211,14 @@ const AdminVideos = () => {
                     placeholder="e.g., आमच्या संस्थेची व्हर्च्युअल टूर"
                   />
                 </div>
-                <Button onClick={handleAddVideo}>
+                <div className="flex items-center gap-3">
+                  <Switch 
+                    checked={newVideo.is_shorts} 
+                    onCheckedChange={(checked) => setNewVideo({ ...newVideo, is_shorts: checked })}
+                  />
+                  <Label className="cursor-pointer">YouTube Shorts (9:16 aspect ratio)</Label>
+                </div>
+                <Button onClick={handleAddVideo} className="w-full sm:w-auto">
                   <Plus className="w-4 h-4 mr-2" />
                   Add Video
                 </Button>
@@ -195,8 +226,8 @@ const AdminVideos = () => {
             </Card>
 
             <Card>
-              <CardHeader>
-                <CardTitle>Institute Videos ({instituteVideos.length})</CardTitle>
+              <CardHeader className="pb-3">
+                <CardTitle className="text-lg">Institute Videos ({instituteVideos.length})</CardTitle>
               </CardHeader>
               <CardContent>
                 {loading ? (
@@ -204,14 +235,21 @@ const AdminVideos = () => {
                 ) : instituteVideos.length === 0 ? (
                   <div className="text-center py-8 text-muted-foreground">No videos yet.</div>
                 ) : (
-                  <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
                     {instituteVideos.map((video) => (
                       <div key={video.id} className="relative group">
-                        <img
-                          src={`https://img.youtube.com/vi/${video.youtube_id}/mqdefault.jpg`}
-                          alt={video.title}
-                          className="w-full h-32 object-cover rounded-lg"
-                        />
+                        <div className={`${video.is_shorts ? 'aspect-[9/16]' : 'aspect-video'} relative`}>
+                          <img
+                            src={`https://img.youtube.com/vi/${video.youtube_id}/mqdefault.jpg`}
+                            alt={video.title}
+                            className="w-full h-full object-cover rounded-lg"
+                          />
+                          {video.is_shorts && (
+                            <span className="absolute top-1 left-1 px-1.5 py-0.5 bg-destructive text-destructive-foreground text-[10px] rounded font-medium">
+                              Shorts
+                            </span>
+                          )}
+                        </div>
                         <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex items-center justify-center">
                           <Button
                             variant="destructive"
@@ -221,8 +259,7 @@ const AdminVideos = () => {
                             <Trash2 className="w-4 h-4" />
                           </Button>
                         </div>
-                        <p className="font-medium mt-1 text-sm">{video.title}</p>
-                        <p className="text-xs text-muted-foreground truncate">{video.description}</p>
+                        <p className="font-medium mt-1 text-xs sm:text-sm truncate">{video.title}</p>
                       </div>
                     ))}
                   </div>
@@ -233,11 +270,11 @@ const AdminVideos = () => {
 
           <TabsContent value="testimonials" className="space-y-4 mt-4">
             <Card>
-              <CardHeader>
-                <CardTitle>Add Student Testimonial</CardTitle>
+              <CardHeader className="pb-3">
+                <CardTitle className="text-lg">Add Student Testimonial</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="grid sm:grid-cols-2 gap-4">
+                <div className="grid gap-4">
                   <div className="space-y-2">
                     <Label>Student Name</Label>
                     <Input
@@ -255,13 +292,20 @@ const AdminVideos = () => {
                     />
                   </div>
                 </div>
-                <div className="grid sm:grid-cols-2 gap-4">
+                <div className="grid gap-4">
                   <div className="space-y-2">
-                    <Label>YouTube URL</Label>
+                    <Label>YouTube URL (Regular or Shorts)</Label>
                     <Input
                       value={newTestimonial.youtube_url}
-                      onChange={(e) => setNewTestimonial({ ...newTestimonial, youtube_url: e.target.value })}
-                      placeholder="https://youtube.com/watch?v=..."
+                      onChange={(e) => {
+                        const url = e.target.value;
+                        setNewTestimonial({ 
+                          ...newTestimonial, 
+                          youtube_url: url,
+                          is_shorts: isShortsUrl(url)
+                        });
+                      }}
+                      placeholder="https://youtube.com/watch?v=... or https://youtube.com/shorts/..."
                     />
                   </div>
                   <div className="space-y-2">
@@ -273,7 +317,14 @@ const AdminVideos = () => {
                     />
                   </div>
                 </div>
-                <Button onClick={handleAddTestimonial}>
+                <div className="flex items-center gap-3">
+                  <Switch 
+                    checked={newTestimonial.is_shorts} 
+                    onCheckedChange={(checked) => setNewTestimonial({ ...newTestimonial, is_shorts: checked })}
+                  />
+                  <Label className="cursor-pointer">YouTube Shorts (9:16 aspect ratio)</Label>
+                </div>
+                <Button onClick={handleAddTestimonial} className="w-full sm:w-auto">
                   <Plus className="w-4 h-4 mr-2" />
                   Add Testimonial
                 </Button>
@@ -281,8 +332,8 @@ const AdminVideos = () => {
             </Card>
 
             <Card>
-              <CardHeader>
-                <CardTitle>Student Testimonials ({testimonials.length})</CardTitle>
+              <CardHeader className="pb-3">
+                <CardTitle className="text-lg">Student Testimonials ({testimonials.length})</CardTitle>
               </CardHeader>
               <CardContent>
                 {loading ? (
@@ -290,14 +341,21 @@ const AdminVideos = () => {
                 ) : testimonials.length === 0 ? (
                   <div className="text-center py-8 text-muted-foreground">No testimonials yet.</div>
                 ) : (
-                  <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
                     {testimonials.map((t) => (
                       <div key={t.id} className="relative group">
-                        <img
-                          src={t.thumbnail_url || `https://img.youtube.com/vi/${t.youtube_id}/mqdefault.jpg`}
-                          alt={t.student_name}
-                          className="w-full h-40 object-cover rounded-lg"
-                        />
+                        <div className={`${t.is_shorts ? 'aspect-[9/16]' : 'aspect-video'} relative`}>
+                          <img
+                            src={t.thumbnail_url || `https://img.youtube.com/vi/${t.youtube_id}/mqdefault.jpg`}
+                            alt={t.student_name}
+                            className="w-full h-full object-cover rounded-lg"
+                          />
+                          {t.is_shorts && (
+                            <span className="absolute top-1 left-1 px-1.5 py-0.5 bg-destructive text-destructive-foreground text-[10px] rounded font-medium">
+                              Shorts
+                            </span>
+                          )}
+                        </div>
                         <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex items-center justify-center">
                           <Button
                             variant="destructive"
@@ -307,8 +365,8 @@ const AdminVideos = () => {
                             <Trash2 className="w-4 h-4" />
                           </Button>
                         </div>
-                        <p className="font-medium mt-1 text-sm">{t.student_name}</p>
-                        <p className="text-xs text-muted-foreground">{t.role}</p>
+                        <p className="font-medium mt-1 text-xs sm:text-sm truncate">{t.student_name}</p>
+                        <p className="text-xs text-muted-foreground truncate">{t.role}</p>
                       </div>
                     ))}
                   </div>

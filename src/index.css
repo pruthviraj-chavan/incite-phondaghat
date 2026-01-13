@@ -318,3 +318,27 @@
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
+
+/* Prevent horizontal overflow on mobile */
+html, body {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+/* Ensure all sections respect viewport width */
+section {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+/* Fix mobile overflow for common patterns */
+.container-main {
+  max-width: 100%;
+}
+
+@media (max-width: 768px) {
+  .container-main {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}

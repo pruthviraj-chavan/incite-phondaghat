@@ -57,35 +57,39 @@ const TeamSection = () => {
 
         {/* Team Grid */}
         <div className="flex flex-wrap justify-center gap-8 md:gap-12 lg:gap-16">
-          {displayMembers.map((member, index) => (
-            <div 
-              key={member.id}
-              className="flex flex-col items-center animate-fade-up"
-              style={{ animationDelay: `${index * 0.1}s` }}
-            >
-              {/* Profile Circle */}
-              <div className={`relative w-36 h-36 md:w-44 md:h-44 rounded-full ${colors[index % colors.length]} flex items-center justify-center mb-4 shadow-lg overflow-hidden`}>
-                {member.image_url ? (
-                  <img 
-                    src={member.image_url} 
-                    alt={member.name}
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <div className="w-32 h-32 md:w-40 md:h-40 rounded-full bg-muted flex items-center justify-center text-4xl font-bold text-muted-foreground">
-                    {member.name.charAt(0)}
-                  </div>
-                )}
+          {displayMembers.map((member, index) => {
+            // First member (Director) gets larger size
+            const isDirector = index === 0;
+            return (
+              <div 
+                key={member.id}
+                className="flex flex-col items-center animate-fade-up"
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                {/* Profile Circle - Director is bigger */}
+                <div className={`relative ${isDirector ? 'w-48 h-48 md:w-56 md:h-56' : 'w-36 h-36 md:w-44 md:h-44'} rounded-full ${colors[index % colors.length]} flex items-center justify-center mb-4 shadow-lg overflow-hidden ${isDirector ? 'ring-4 ring-secondary ring-offset-4 ring-offset-[hsl(35,50%,97%)]' : ''}`}>
+                  {member.image_url ? (
+                    <img 
+                      src={member.image_url} 
+                      alt={member.name}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className={`${isDirector ? 'w-44 h-44 md:w-52 md:h-52 text-5xl' : 'w-32 h-32 md:w-40 md:h-40 text-4xl'} rounded-full bg-muted flex items-center justify-center font-bold text-muted-foreground`}>
+                      {member.name.charAt(0)}
+                    </div>
+                  )}
+                </div>
+                {/* Name & Role */}
+                <h3 className={`${isDirector ? 'text-xl md:text-2xl' : 'text-lg md:text-xl'} font-bold text-foreground text-center uppercase tracking-wide`}>
+                  {member.name}
+                </h3>
+                <p className={`text-muted-foreground ${isDirector ? 'text-base font-medium text-secondary' : 'text-sm'}`}>
+                  {member.role}
+                </p>
               </div>
-              {/* Name & Role */}
-              <h3 className="text-lg md:text-xl font-bold text-foreground text-center uppercase tracking-wide">
-                {member.name}
-              </h3>
-              <p className="text-muted-foreground text-sm">
-                {member.role}
-              </p>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

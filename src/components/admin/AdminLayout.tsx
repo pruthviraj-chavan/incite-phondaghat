@@ -18,12 +18,16 @@ interface AdminLayoutProps {
   children: ReactNode;
 }
 
+import { BookOpen, Sparkles } from "lucide-react";
+
 const navItems = [
   { path: "/admin", label: "Dashboard", icon: LayoutDashboard },
   { path: "/admin/gallery", label: "Gallery Images", icon: Image },
   { path: "/admin/videos", label: "Videos", icon: Video },
   { path: "/admin/blogs", label: "Blogs", icon: FileText },
   { path: "/admin/team", label: "Team Members", icon: Users },
+  { path: "/admin/courses", label: "Courses", icon: BookOpen },
+  { path: "/admin/ai-tools", label: "AI Tools", icon: Sparkles },
 ];
 
 const AdminLayout = ({ children }: AdminLayoutProps) => {

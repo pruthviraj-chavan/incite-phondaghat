@@ -22,6 +22,7 @@ import SEO from "@/components/SEO";
 import heroImage from "@/assets/hero-classroom.jpg";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import DirectorStorySection from "@/components/sections/DirectorStorySection";
 
 interface TeamMember {
   id: string;
@@ -488,6 +489,9 @@ const About = () => {
           </div>
         </div>
       </section>
+
+      {/* Director Story Section */}
+      <DirectorStorySection />
 
       {/* CTA Section */}
       <section className="section-padding hero-gradient">
