@@ -59,7 +59,6 @@ const courses = [
   "Office Automation",
   "Tally Prime",
   "Basic Computer",
-
   "KLiC Certificate in Basics of Accounting with Tally",
   "KLiC Certificate in Foundation of Financial Accounting (Tally and Excel)",
   "KLiC Certificate in Office Assistance",
@@ -94,7 +93,6 @@ const courses = [
   "KLiC Certificate in Digital Freelancing with Social Media Marketing",
   "KLiC Certificate in Service Entrepreneurship and Social Media Marketing",
   "KLiC Certificate in Customer Focus with Understanding Customer Requirement",
-
   "KLiC Certificate in C Programming",
   "KLiC Certificate in C++ Programming",
   "KLiC Certificate in Mobile App Development Basics",
@@ -112,11 +110,9 @@ const courses = [
   "KLiC Certificate in IT Hardware and Cloud Computing",
   "KLiC Certificate in Advanced Retail Management",
   "KLiC Certificate in Advanced Banking, Financial Services & Insurance (BFSI)",
-
   "KLiC Certificate in Service Entrepreneurship with Data Management",
   "KLiC Certificate in Service Entrepreneurship and Data Management with Excel",
   "KLiC Certificate in Service Entrepreneurship and Data Analytics & Data Management",
-
   "KLiC Certificate in Mobile App Development",
   "KLiC Certificate in Python",
   "KLiC Certificate in Data Structures using C- C++",
@@ -131,21 +127,17 @@ const courses = [
   "KLiC Certificate in PHP with Web Designing",
   "KLiC Certificate in PHP with Server API Development",
   "KLiC Certificate in Java Programming and Server API Development",
-
   "KLiC Certificate in Advanced Tally Pro",
   "KLiC Certificate in Applied Advanced Accounting (Tally and Excel)",
-
   "KLiC Data Analytics & Data Visualisation",
   "KLiC Certificate in Data Visualisation",
   "KLiC Certificate in Excel with Python Programming for Data Analysis",
-
   "KLiC Certificate in Advanced Desk Top Publishing",
   "KLiC Certificate in Advanced Web Designing",
   "KLiC Certificate in Animation/VFX",
   "KLiC Certificate in Revit",
   "KLiC Certificate in Game Development (Unity 3D)",
   "KLiC Certificate in AutoCAD and Revit",
-
   "KLiC Cloud Computing Essentials",
   "KLiC Web and Database Administrator",
   "KLiC Certificate in HTML with CSS",
@@ -159,11 +151,9 @@ const courses = [
   "KLiC Certificate in Java with Server API Development",
   "KLiC Certificate in Data Analytics and Data Visualisation with Python",
   "KLiC Certificate in Data Analytics and Data Visualisation with DBMS",
-
   "CCTP",
   "Other"
 ];
-
 
 const faqs = [
   {
@@ -195,11 +185,28 @@ const Contact = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    // Construct WhatsApp message
+    const whatsappMessage = `🎓 *नवीन Enquiry - Incite Computer*
+
+👤 *नाव:* ${formData.name}
+📞 *फोन:* ${formData.phone}
+📧 *Email:* ${formData.email || 'N/A'}
+📚 *Course:* ${formData.course}
+💬 *संदेश:* ${formData.message || 'N/A'}
+
+---
+_Incite Computer Phondaghat Website वरून_`;
+
+    // Encode the message for URL
+    const encodedMessage = encodeURIComponent(whatsappMessage);
+    const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
+
+    // Open WhatsApp in a new tab
+    window.open(whatsappUrl, '_blank');
 
     toast({
-      title: "Enquiry Submitted Successfully!",
-      description: "आम्ही तुमच्याशी लवकरच संपर्क साधू. धन्यवाद!",
+      title: "Enquiry Ready!",
+      description: "WhatsApp उघडत आहे... कृपया संदेश पाठवा.",
     });
 
     setFormData({
@@ -257,19 +264,19 @@ const Contact = () => {
       {/* Contact Cards Section */}
       <section className="py-12 bg-background">
         <div className="container-main px-4">
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
             {contactInfo.map((item, index) => (
               <div
                 key={item.title}
-                className="bg-card rounded-2xl p-6 border border-border hover:shadow-lg transition-all animate-fade-up group"
+                className="bg-card rounded-2xl p-4 md:p-6 border border-border hover:shadow-lg transition-all animate-fade-up group"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
-                <div className={`w-14 h-14 rounded-2xl ${item.color} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
-                  <item.icon className="w-7 h-7" />
+                <div className={`w-12 h-12 md:w-14 md:h-14 rounded-2xl ${item.color} flex items-center justify-center mb-3 md:mb-4 group-hover:scale-110 transition-transform`}>
+                  <item.icon className="w-6 h-6 md:w-7 md:h-7" />
                 </div>
-                <h3 className="font-bold text-foreground mb-2">{item.title}</h3>
+                <h3 className="font-bold text-foreground mb-1 md:mb-2 text-sm md:text-base">{item.title}</h3>
                 {item.details.map((detail, idx) => (
-                  <p key={idx} className="text-sm text-muted-foreground">
+                  <p key={idx} className="text-xs md:text-sm text-muted-foreground">
                     {item.action && idx === 0 ? (
                       <a href={item.action} className="hover:text-primary transition-colors">
                         {detail}
@@ -287,21 +294,21 @@ const Contact = () => {
 
       {/* Main Contact Section */}
       <section className="section-padding bg-muted/30">
-        <div className="container-main">
-          <div className="grid lg:grid-cols-5 gap-12">
+        <div className="container-main px-4">
+          <div className="grid lg:grid-cols-5 gap-8 lg:gap-12">
             {/* Contact Form */}
-            <div className="lg:col-span-3 bg-card rounded-3xl p-8 shadow-lg border border-border animate-fade-up">
+            <div className="lg:col-span-3 bg-card rounded-3xl p-6 md:p-8 shadow-lg border border-border animate-fade-up">
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
                   <Send className="w-6 h-6 text-primary" />
                 </div>
                 <div>
-                  <h2 className="text-2xl font-bold text-foreground">Send an Enquiry</h2>
-                  <p className="text-sm text-muted-foreground">खालील फॉर्म भरा</p>
+                  <h2 className="text-xl md:text-2xl font-bold text-foreground">Send an Enquiry</h2>
+                  <p className="text-sm text-muted-foreground">खालील फॉर्म भरा (WhatsApp वर पाठवले जाईल)</p>
                 </div>
               </div>
 
-              <form onSubmit={handleSubmit} className="space-y-5">
+              <form onSubmit={handleSubmit} className="space-y-4 md:space-y-5">
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div className="relative">
                     <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
@@ -348,7 +355,7 @@ const Contact = () => {
                     value={formData.course}
                     onChange={handleChange}
                     required
-                    className="w-full h-12 pl-12 pr-4 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring appearance-none"
+                    className="w-full h-12 pl-12 pr-4 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring appearance-none text-sm"
                   >
                     <option value="">Select a Course</option>
                     {courses.map((course) => (
@@ -372,17 +379,18 @@ const Contact = () => {
                   type="submit" 
                   size="lg" 
                   disabled={isSubmitting} 
-                  className="w-full h-14 text-base"
+                  className="w-full h-14 text-base bg-green-600 hover:bg-green-700"
                 >
                   {isSubmitting ? (
                     <>
                       <span className="animate-spin mr-2">⏳</span>
-                      Submitting...
+                      Processing...
                     </>
                   ) : (
                     <>
-                      Submit Enquiry
-                      <ArrowRight className="w-5 h-5" />
+                      <MessageCircle className="w-5 h-5 mr-2" />
+                      WhatsApp वर पाठवा
+                      <ArrowRight className="w-5 h-5 ml-2" />
                     </>
                   )}
                 </Button>
@@ -427,9 +435,9 @@ const Contact = () => {
                 </h3>
                 <div className="space-y-4">
                   {faqs.map((faq, index) => (
-                    <div key={index} className="border-b border-border last:border-0 pb-4 last:pb-0">
-                      <h4 className="font-medium text-foreground mb-1">{faq.question}</h4>
-                      <p className="text-sm text-muted-foreground">{faq.answer}</p>
+                    <div key={index} className="pb-4 border-b border-border last:border-0 last:pb-0">
+                      <h4 className="font-medium text-foreground mb-1 text-sm">{faq.question}</h4>
+                      <p className="text-muted-foreground text-sm">{faq.answer}</p>
                     </div>
                   ))}
                 </div>
@@ -439,20 +447,19 @@ const Contact = () => {
         </div>
       </section>
 
-      {/* Google Map */}
-      <section className="py-8 bg-background">
+      {/* Map Section */}
+      <section className="py-12 bg-background">
         <div className="container-main px-4">
-          <div className="rounded-3xl overflow-hidden shadow-xl border-4 border-muted">
+          <div className="rounded-3xl overflow-hidden shadow-lg border border-border">
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2579.636884365667!2d73.79439958446986!3d16.37220811921915!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc038d5f345c7e9%3A0xdb8108c6b59618c2!2sGandhi%20Chowk!5e0!3m2!1sen!2sin!4v1767254854467!5m2!1sen!2sin"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3849.3899999999994!2d73.7899999!3d15.8599999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTXCsDUxJzM2LjAiTiA3M8KwNDcnMjQuMCJF!5e0!3m2!1sen!2sin!4v1234567890"
               width="100%"
               height="400"
               style={{ border: 0 }}
               allowFullScreen
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
-              title="Incite Computer Phondaghat Location"
-              className="w-full"
+              title="Incite Computer Location"
             />
           </div>
         </div>

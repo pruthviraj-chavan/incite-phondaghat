@@ -11,6 +11,8 @@ import TestimonialsSection from "@/components/sections/TestimonialsSection";
 import CourseHighlightSection from "@/components/sections/CourseHighlightSection";
 import CurriculumSection from "@/components/sections/CurriculumSection";
 import CommunitySection from "@/components/sections/CommunitySection";
+import WhyJoinUsSection from "@/components/sections/WhyJoinUsSection";
+import SuccessStoriesSection from "@/components/sections/SuccessStoriesSection";
 
 const Index = () => {
   return (
@@ -54,6 +56,12 @@ const Index = () => {
 
       {/* Community Section */}
       <CommunitySection />
+
+      {/* Why Join Us Section */}
+      <WhyJoinUsSection />
+
+      {/* Success Stories Section */}
+      <SuccessStoriesSection />
 
       {/* CTA Section */}
       <section className="section-padding hero-gradient">
