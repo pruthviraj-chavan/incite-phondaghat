@@ -1,12 +1,15 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Award, BookOpen, Users, Trophy, Star } from "lucide-react";
+import mkclLogo from "@/assets/logos/mkcl-logo.png";
+import klicLogo from "@/assets/logos/klic-logo.png";
+import mkclCoursesLogo from "@/assets/logos/mkcl-courses-logo.png";
 
-// Real company logos
+// Real company logos - using uploaded official logos
 const partners = [
-  { name: "MKCL", logo: "https://upload.wikimedia.org/wikipedia/en/thumb/6/6e/MKCL_logo.svg/200px-MKCL_logo.svg.png" },
-  { name: "MS-CIT", logo: "https://upload.wikimedia.org/wikipedia/en/thumb/6/6e/MKCL_logo.svg/200px-MKCL_logo.svg.png" },
-  { name: "KLiC", logo: "https://upload.wikimedia.org/wikipedia/en/thumb/6/6e/MKCL_logo.svg/200px-MKCL_logo.svg.png" },
+  { name: "MKCL", logo: mkclLogo },
+  { name: "KLiC Courses", logo: klicLogo },
+  { name: "MS-CIT", logo: mkclCoursesLogo },
   { name: "NIELIT", logo: "https://upload.wikimedia.org/wikipedia/en/thumb/3/3e/NIELIT_logo.svg/200px-NIELIT_logo.svg.png" },
   { name: "Maharashtra Govt", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Seal_of_Maharashtra.svg/200px-Seal_of_Maharashtra.svg.png" },
   { name: "Tally", logo: "https://upload.wikimedia.org/wikipedia/en/thumb/d/d3/Tally_-_Logo.svg/200px-Tally_-_Logo.svg.png" },
