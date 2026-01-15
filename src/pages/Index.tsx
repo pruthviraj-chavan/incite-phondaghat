@@ -13,6 +13,7 @@ import CurriculumSection from "@/components/sections/CurriculumSection";
 import CommunitySection from "@/components/sections/CommunitySection";
 import WhyJoinUsSection from "@/components/sections/WhyJoinUsSection";
 import SuccessStoriesSection from "@/components/sections/SuccessStoriesSection";
+import LogosSection from "@/components/sections/LogosSection";
 
 const Index = () => {
   return (
@@ -35,6 +36,9 @@ const Index = () => {
         }}
       />
       <HeroSection />
+
+      {/* Logos Section */}
+      <LogosSection />
 
       {/* Mission Section */}
       <MissionSection />

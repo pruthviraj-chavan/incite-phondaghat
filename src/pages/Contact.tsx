@@ -17,6 +17,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import Layout from "@/components/layout/Layout";
 import SEO from "@/components/SEO";
+import LogosSection from "@/components/sections/LogosSection";
 
 const WHATSAPP_NUMBER = "917499697181";
 const WHATSAPP_LINK = `https://wa.me/${WHATSAPP_NUMBER}`;
@@ -464,6 +465,9 @@ _Incite Computer Phondaghat Website वरून_`;
           </div>
         </div>
       </section>
+
+      {/* Logos Section */}
+      <LogosSection variant="light" />
     </Layout>
   );
 };
