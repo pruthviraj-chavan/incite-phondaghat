@@ -24,6 +24,7 @@ import Layout from "@/components/layout/Layout";
 import SEO from "@/components/SEO";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import LogosSection from "@/components/sections/LogosSection";
 
 const categories = [
   { id: "all", label: "All Categories", icon: Grid3X3 },
@@ -430,6 +431,9 @@ const Courses = () => {
           </div>
         </div>
       </section>
+
+      {/* Logos Section */}
+      <LogosSection variant="light" />
 
       {/* CTA Section */}
       <section className="section-padding hero-gradient">

@@ -23,6 +23,7 @@ import heroImage from "@/assets/hero-classroom.jpg";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import DirectorStorySection from "@/components/sections/DirectorStorySection";
+import LogosSection from "@/components/sections/LogosSection";
 
 interface TeamMember {
   id: string;
@@ -492,6 +493,9 @@ const About = () => {
 
       {/* Director Story Section */}
       <DirectorStorySection />
+
+      {/* Logos Section */}
+      <LogosSection variant="light" />
 
       {/* CTA Section */}
       <section className="section-padding hero-gradient">
